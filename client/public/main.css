@@ -14,5 +14,17 @@ html, body {
 }
 
 .fancy-color{
-    background-color: rgb(237, 239, 255);
+    background-color: rgb(57, 80, 254);
+}
+
+.bit-girl{
+    size: 30px;
+}
+
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24
 }
