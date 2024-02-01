@@ -1,4 +1,4 @@
-export interface cv {
-    titel : string;
-    description : string;
+export interface CV {
+    ID : Number;
+    file : File
 }

@@ -1,6 +1,6 @@
 import { CV } from "../model/cv";
 
-export class CVServices {
+export class adminServices {
     private cv : CV = 0//Create default CV here, dunno how so I put 0
 
     async getCV(): Promise<CV> {
