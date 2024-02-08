@@ -9,7 +9,7 @@ export class adminServices {
 
     async addCV(id: Number, cvFile: File): Promise<CV> {
         const cool_cv = {
-            ID: id,
+            id: id,
             file: cvFile,
         }
         this.cv = cool_cv;

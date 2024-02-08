@@ -1,4 +1,4 @@
 export interface CV {
-    ID : Number;
+    id : Number;
     file : File
 }
