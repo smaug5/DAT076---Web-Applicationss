@@ -1,5 +1,5 @@
 import express from "express";
-import { cvRouter } from "./cvRouter";
+import { cvRouter } from "./router/cvRouter";
 
 export const app = express();
 

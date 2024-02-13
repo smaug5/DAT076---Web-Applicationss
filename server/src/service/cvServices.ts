@@ -1,10 +1,10 @@
 import { CV } from "../model/cv";
 
 export class CVServices {
-    private cv : CV = 0//Create default CV here, dunno how so I put 0
+    private cv : CV = 0; //Create default CV here, dunno how so I put 0
 
     async getCV(): Promise<CV> {
-        return JSON.parse(JSON.stringify(this.cv)); // Replace this with code to get CV from database,
+        return JSON.parse(JSON.stringify(1)); // Replace this with code to get CV from database,
     }
 
     async addCV(id: Number, cvFile: File): Promise<CV> {
@@ -25,3 +25,5 @@ export class CVServices {
         return { ...cv };
     }
 }
+
+export const cvService: CVServices = new CVServices();

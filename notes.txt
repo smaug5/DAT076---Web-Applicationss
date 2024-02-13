@@ -1,4 +1,13 @@
-Inspo portfolios
+INSPO PORTFOLIO
 https://hackernoon.com/21-best-developer-portfolio-examples-p61j31wi
-https://l.facebook.com/l.php?u=https%3A%2F%2Fcoolors.co%2F17394f-9a3e4a-99e1d9-f0f7f4-141016&h=AT2NRjzHswhb7tD3yiTTue1vhbVDE_v7cgQe-UsDNm2u84hwGO5sfC1jPmBoYOsoWEhTZ6FgxZEKszDHrBvYhbcJnV5hhEY68MYRwSuG85e_xMK4sBYRrW4DD6Sr1F1HH93W3fllwooaAdg&s=1
+https://coolors.co/23f0c7-ef767a-7d7abc-6457a6-ffe347
 
+
+FIGMA
+https://www.figma.com/file/CU4HRobcTkgbmOxL9o6RAD/Portfolio-website?type=design&node-id=0-1&mode=design&t=O80fF1KOwRuJHrGJ-0 
+
+DATABAS:
+https://wanago.io/2020/04/27/typescript-express-put-vs-patch-mongodb-mongoose/ 
+
+YT FUN:
+https://www.youtube.com/watch?v=tkfVQK6UxDI - generell https req
