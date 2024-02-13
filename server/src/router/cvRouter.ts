@@ -12,11 +12,11 @@ export const cvRouter = express.Router();
 
 cvRouter.get("/", async (
     req: Request,
-    res: Response<File | String>
+    res: Response<CV | String>
 ) => {
     try {
-        const tasks = await cvService.getCV(); 
-        res.status(200).send(tasks);
+        const cv = await cvService.getCV(); 
+        res.status(200).send(cv);
     } catch (e: any) {
         res.status(500).send(e.message);
     }
@@ -24,31 +24,25 @@ cvRouter.get("/", async (
 
 
 cvRouter.put('', async (
-    req: Request<File | String>, 
-    res: Response
-    ) => {
-    // Extract data from request body
-    const id = parseInt(req.params.id);
-    const cvData = req.body;
+  req: Request<File | String>, 
+  res: Response
+  ) => {
+  // Extract data from request body
+  const cvData = req.body;
 
-    if (!req.body) {
-        return res.status(400).send({ message: 'Please upload a file.' });
-      }
-  
-    try {
-        const cv: CV = {
-            id: parseInt(req.body.id), // Ensure proper type conversion
-            file: req.body // Multer populates this ??? Possibly replace with other file handler
-          };
-
-
-        const updatedCV = await cvService.addCV(id, cvData);
-      
-        res.status(200).send({ message: 'CV updated successfully', cv });
-    } catch (e: any) {
-      res.status(500).send("Error uploading CV" + e.message);
+  if (!req.body) {
+      return res.status(400).send({ message: 'Please upload a file.' }); //Possibly error 404
     }
-  });
+
+  try {
+      
+      const updatedCV = await cvService.addCV(cvData);
+    
+      res.status(200).send({ message: 'CV updated successfully' });
+  } catch (e: any) {
+    res.status(500).send("Error uploading CV" + e.message);
+  }
+});
 
 
 // cvRouter.put('/api/:company', function (req, res) {
