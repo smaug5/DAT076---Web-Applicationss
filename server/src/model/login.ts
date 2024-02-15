@@ -1,6 +1,6 @@
 export interface login {
-    id : number;
-    username : string;
-    password : string;
-    isAdmin : boolean;
+    id : Number;
+    username : String;
+    password : String;
+    isAdmin : Boolean;
 }

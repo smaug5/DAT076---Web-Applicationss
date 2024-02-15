@@ -33,7 +33,7 @@ projectRouter.put("/", async (
     res: Response<Boolean>
 ) => {
     try {
-        const verifiedStatus = await projectService.uploadProject; 
+        const verifiedStatus = await projectServices.addProject(0, "Cool project", "description", "www.haskdja.se");
         res.status(200).send(verifiedStatus);
     } catch (e: any) {
         res.status(500).send(e.message);
