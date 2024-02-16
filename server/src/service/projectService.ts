@@ -17,23 +17,34 @@ export class projectService {
         return this.projects[0];
     }
 
-    async addProject(id: Number, titel: String, description: String, urlAddress: String): Promise<Boolean> {
+    async addProject(id: Number, title: String, description: String, urlAddress: String) {
         
         const project: project = {
             id: id,
-            titel: titel,
+            title: title,
             description: description,
            // imageID: imageID,  // add when we can handle files
             url: urlAddress
           };
-          if(! project) {
-            return false;
-          }
           
         this.projects.push(project);
         // include code to add it to the database
-          return true; // what should be returned?
 
+    }
+
+    async removeProject(title: String) {
+        this.projects.forEach(element => {
+            if (element.title == title) {
+              //Use DB to remove specific project
+            }
+        });
+
+        for (let i = 0; this.projects.length; i++) {
+            delete this.projects[i]
+            console.log ("Block statement execution no." + i);
+        }
+      
+        //Use title to find project in DB, Remove it.
     }
 
 }
