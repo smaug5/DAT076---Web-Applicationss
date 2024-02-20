@@ -30,11 +30,11 @@ projectRouter.get("/specificProject", async (
 
 projectRouter.put("/", async (
     req: Request,
-    res: Response<Boolean>
+    res: Response
 ) => {
     try {
-        const verifiedStatus = await projectServices.addProject(0, "Cool project", "description", "www.haskdja.se");
-        res.status(200).send(verifiedStatus);
+        await projectServices.addProject(0, "Cool project", "description", "www.haskdja.se");
+        res.status(200).send("Project added succesfully");
     } catch (e: any) {
         res.status(500).send(e.message);
     }

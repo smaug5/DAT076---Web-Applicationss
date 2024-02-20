@@ -23,11 +23,11 @@ export class CVServices {
     async removeCV(cv: CV): Promise<CV | undefined> {
         if (! cv) {
             return undefined;
-        }
+        
 
         //Add code to remove CV from Database
         return { ...cv };
+        }
     }
 }
-
 export const cvService: CVServices = new CVServices();
