@@ -9,5 +9,5 @@ export class adminService {
     }
 }
 
-export const adminServices = new adminService();
+export const adminwaplogin = new adminService();
 
