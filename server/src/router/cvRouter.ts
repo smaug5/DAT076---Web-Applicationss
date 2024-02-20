@@ -24,7 +24,7 @@ cvRouter.get("/", async (
 
 
 cvRouter.put('', async (
-  req: Request<File | String>, 
+  req: Request<String>, // Send serialized PDF
   res: Response
   ) => {
   // Extract data from request body

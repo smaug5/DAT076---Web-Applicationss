@@ -17,8 +17,7 @@ export class projectService {
         return this.projects[0];
     }
 
-    async addProject(id: Number, title: String, description: String, urlAddress: String) {
-        
+    async addProject(id: Number, title: String, description: String, urlAddress ?: String) {
         const project: project = {
             id: id,
             title: title,

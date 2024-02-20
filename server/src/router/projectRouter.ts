@@ -16,11 +16,12 @@ projectRouter.get("/", async (
     }
 });
 
-projectRouter.get("/specificProject", async (
-    req: Request,
+projectRouter.get("/:id", async (
+    req: Request<{id : string}>,
     res: Response<project | undefined>
 ) => {
     try {
+        const id : number = parseInt(req.params.id);
         const project = await projectServices.getProject("Cool Construction Project"); 
         res.status(200).send(project);
     } catch (e: any) {
@@ -29,11 +30,16 @@ projectRouter.get("/specificProject", async (
 });
 
 projectRouter.put("/", async (
-    req: Request,
-    res: Response
+    req: Request<{},string,{title : string, description : string, imageID ?: string, url ?: string}>,
+    res: Response<string>
 ) => {
     try {
-        await projectServices.addProject(0, "Cool project", "description", "www.haskdja.se");
+        console.log(req.body);
+        const title : string = req.body.title;
+        console.log(`Title: ${title}`)
+        const description : string = req.body.description;
+        console.log(`Description: ${description}`)
+        await projectServices.addProject(0, title, description);
         res.status(200).send("Project added succesfully");
     } catch (e: any) {
         res.status(500).send(e.message);
