@@ -1,3 +1,0 @@
-test("Start application", async () => {
-    
-});
