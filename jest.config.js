@@ -3,3 +3,5 @@ module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
 };
+
+// TODO Maybe should be moved into Server folder
