@@ -1,3 +1,4 @@
+import { title } from "process";
 import { project } from "../model/project";
 
 export class projectService {
@@ -6,16 +7,36 @@ export class projectService {
    private projects: project[] = [] // Add so this is equal to all projects in the database.
 
 
-    async getAllProjects(): Promise<project[] | undefined> {
-        return this.projects;
-    }
+    async getAllProjects(): Promise<project[]> {
+        return JSON.parse(JSON.stringify(this.projects));
+    };
     
     async getProject(projectName: String): Promise<project | undefined> {
 
-        // Get specific project based on name. Return this instead
+        this.projects.forEach(project => {
+            if (project.title == projectName) {
+                return project;
+            }
+        });
+        return undefined;
+    }
+        
+/*         let proj: project | undefined = this.projects.find(this.findProject)
+
+        return JSON.parse(JSON.stringify(this.projects))
+        Get specific project based on name. Return this instead
 
         return this.projects[0];
-    }
+    };
+
+    async findProject(project: project): Promise<Boolean | undefined> {
+        const index: number = 0
+        if ( title == projName) {
+            return true;
+        
+        }
+        return false; 
+    }*/
 
     async addProject(id: Number, title: String, description: String, urlAddress ?: String) {
         const project: project = {
