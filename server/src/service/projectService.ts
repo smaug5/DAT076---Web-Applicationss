@@ -59,10 +59,12 @@ export class projectService {
             }
         });
 
-        for (let i = 0; this.projects.length; i++) {
-            delete this.projects[i]
-            console.log ("Block statement execution no." + i);
-        }
+        this.projects = this.projects.filter((element) => element.title !== title);
+
+        // for (let i = 0; i < this.projects.length; i++) {
+        //     delete this.projects[i]
+        //     console.log ("Block statement execution no." + i);
+        // }
       
         //Use title to find project in DB, Remove it.
     }
