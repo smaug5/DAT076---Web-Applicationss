@@ -7,27 +7,28 @@ export class CVServices {
         return JSON.parse(JSON.stringify(1)); // Replace this with code to get CV from database,
     }
 
-    async addCV(cvFile: File) {
+    async addCV(cvString: String) {
 
         const cv: CV = {
-            file: cvFile 
+            serialPdf: cvString 
           };
 
         const cool_cv: CV = {
-            file: cvFile,
+            serialPdf: cvString,
         }
         this.cv = cool_cv;
         //Add to database here
     }
 
     async removeCV(cv: CV): Promise<CV | undefined> {
-        if (! cv) {
+        if (this.cv === undefined) {
             return undefined;
-        
+        }
+        const currentCV = JSON.parse(JSON.stringify(this.cv));
+        this.cv = undefined;
 
         //Add code to remove CV from Database
-        return { ...cv };
-        }
+        return { serialPdf: currentCV.serialPdf };
     }
 }
 export const cvService: CVServices = new CVServices();

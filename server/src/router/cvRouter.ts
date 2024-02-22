@@ -25,20 +25,20 @@ cvRouter.get("/", async (
 
 cvRouter.put('', async (
   req: Request<String>, // Send serialized PDF
-  res: Response
+  res: Response<String>
   ) => {
   // Extract data from request body
   const cvData = req.body;
 
   if (!req.body) {
-      return res.status(400).send({ message: 'Please upload a file.' }); //Possibly error 404
+      return res.status(400).send('Please upload a file.' ); //Possibly error 404
     }
 
   try {
       
       const updatedCV = await cvService.addCV(cvData);
     
-      res.status(200).send({ message: 'CV updated successfully' });
+      res.status(200).send( 'CV updated successfully' );
   } catch (e: any) {
     res.status(500).send("Error uploading CV" + e.message);
   }

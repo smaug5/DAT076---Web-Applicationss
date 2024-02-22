@@ -1,3 +1,3 @@
 export interface CV {
-    file : File // Ev: Blob
+    serialPdf : String // Serialized PDF
 }
