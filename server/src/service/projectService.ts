@@ -21,22 +21,6 @@ export class projectService {
         return undefined;
     }
         
-/*         let proj: project | undefined = this.projects.find(this.findProject)
-
-        return JSON.parse(JSON.stringify(this.projects))
-        Get specific project based on name. Return this instead
-
-        return this.projects[0];
-    };
-
-    async findProject(project: project): Promise<Boolean | undefined> {
-        const index: number = 0
-        if ( title == projName) {
-            return true;
-        
-        }
-        return false; 
-    }*/
 
     async addProject(id: Number, title: String, description: String, urlAddress ?: String) {
         const project: project = {
@@ -53,18 +37,9 @@ export class projectService {
     }
 
     async removeProject(title: String) {
-        this.projects.forEach(element => {
-            if (element.title == title) {
-              //Use DB to remove specific project
-            }
-        });
 
         this.projects = this.projects.filter((element) => element.title !== title);
-
-        // for (let i = 0; i < this.projects.length; i++) {
-        //     delete this.projects[i]
-        //     console.log ("Block statement execution no." + i);
-        // }
+        //Use DB to remove specific project
       
         //Use title to find project in DB, Remove it.
     }
