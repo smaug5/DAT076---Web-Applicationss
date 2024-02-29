@@ -1,17 +1,52 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import logo from './logo.svg';
+import logo2 from './logo2.svg';
 import './App.css';
 import '../src/css/main.css';
 import '../src/css/animations.css';
 import translateIcon from '../src/images/translate_icon.svg';
 import itGirlImage from '../src/images/IT-girl.jpg';
+import axios, { AxiosResponse } from 'axios';
+
+interface Project {
+  title : string,
+  description : string,
+  //imageID : number,
+  url ?: string;
+}
+
 
 
 function App() {
+  const [theProjectList, setProjectList] = useState<Project[]>([]);
+
+  async function updateProjects() {
+    // TODO Make the URL variable
+    setTimeout(async () => {
+      try {
+        const response = await axios.get<Project[]>("http://localhost:8080/api/project")
+        console.log(response.data);
+        const newProjects : Project[] = response.data;
+        setProjectList(newProjects);
+      } catch (error : any) {
+        console.log(error)
+      }
+    
+    }, 1000);
+  }
+
+  useEffect(() => {
+    updateProjects();
+  }, [])
+
+  updateProjects();
+  
   return (
     <div>
       {navBar()}
-      {mainContent()}
+      <h1>Projects</h1>
+      <PortfolioContent projects = {theProjectList}/>
+      {/* {mainContent()} */}
     </div>
   );
 }
@@ -40,8 +75,8 @@ export function navBar() {
 
         <div className="collapse navbar-collapse align-navitems" id="navbarNavAltMarkup">
           <div className="navbar-nav align-navitems">
-            <a className="nav-link" href="index.html">Home</a>
-            <a className="nav-link active" aria-current="page" href="about.html">About</a>
+            <a className="nav-link active" aria-current="page" href="index.html">Home</a>
+            <a className="nav-link" href="about.html">About</a>
             <a className="nav-link" href="#">Contact</a>
             <a className="nav-link disabled" aria-disabled="true">Portfolio</a>
           </div>
@@ -64,6 +99,17 @@ export function mainContent() {
         </div>
       </div>
     </div>
+  );
+}
+
+
+function PortfolioContent({ projects } : { projects : Project[] }) {
+  return(
+    <ul>
+      {projects.map((project : Project) =>
+      <li key={project.title}>{project.title} <br/> <img src={logo} alt="Logo" width="200px" /></li>
+      )}
+    </ul>
   );
 }
 

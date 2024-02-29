@@ -11,3 +11,7 @@ https://wanago.io/2020/04/27/typescript-express-put-vs-patch-mongodb-mongoose/
 
 YT FUN:
 https://www.youtube.com/watch?v=tkfVQK6UxDI - generell https req
+
+Example git bash curl
+curl -X PUT -H 'Content-Type: application/json' -d '{ "title": "Second Project", "description": "This is the second project" }' -i localhost:8080/api/project
+curl -X DELETE -H 'Content-Type: application/json' -i localhost:8080/api/project/First%20Project

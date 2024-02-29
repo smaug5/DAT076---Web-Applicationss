@@ -16,13 +16,14 @@ projectRouter.get("/", async (
     }
 });
 
-projectRouter.get("/:id", async (
-    req: Request<{id : string}>,
+projectRouter.get("/:title", async (
+    req: Request<{title : string}>,
     res: Response<project | undefined>
 ) => {
     try {
-        const id : number = parseInt(req.params.id);
-        const project = await projectServices.getProject("Cool Construction Project"); 
+        const title : String = req.params.title;
+        const project = await projectServices.getProject(title);
+        console.log(project);
         res.status(200).send(project);
     } catch (e: any) {
         res.status(500).send(e.message);
@@ -39,8 +40,21 @@ projectRouter.put("/", async (
         console.log(`Title: ${title}`)
         const description : string = req.body.description;
         console.log(`Description: ${description}`)
-        await projectServices.addProject(0, title, description);
+        await projectServices.addProject(title, description);
         res.status(200).send("Project added succesfully");
+    } catch (e: any) {
+        res.status(500).send(e.message);
+    }
+});
+
+projectRouter.delete("/:title", async (
+    req: Request<{title : string}>,
+    res: Response<string>
+) => {
+    try {
+        const title : String = req.params.title;
+        await projectServices.removeProject(title);
+        res.status(200).send("Project deleted successfully");
     } catch (e: any) {
         res.status(500).send(e.message);
     }

@@ -12,19 +12,17 @@ export class projectService {
     };
     
     async getProject(projectName: String): Promise<project | undefined> {
-
-        this.projects.forEach(project => {
-            if (project.title == projectName) {
-                return project;
-            }
-        });
+        let foundProjects = this.projects.filter(x => x.title === projectName);
+        if (foundProjects.length === 1) {
+            return foundProjects[0];
+        }
         return undefined;
     }
         
 
-    async addProject(id: Number, title: String, description: String, urlAddress ?: String) {
+    async addProject(title: String, description: String, urlAddress ?: String) {
         const project: project = {
-            id: id,
+            //id: id,
             title: title,
             description: description,
            // imageID: imageID,  // add when we can handle files
