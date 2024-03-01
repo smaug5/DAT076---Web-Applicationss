@@ -37,10 +37,7 @@ const Navbar = ({ onLanguageChange }: { onLanguageChange: (language: string) => 
   
           <div className="collapse navbar-collapse align-navitems" id="navbarNavAltMarkup">
             <div className="navbar-nav align-navitems">
-              <a className="nav-link" href="index.html">Home</a>
-              <a className="nav-link active" aria-current="page" href="about.html">About</a>
-              <a className="nav-link" href="#">Contact</a>
-              <a className="nav-link disabled" aria-disabled="true">Portfolio</a>
+                
             </div>
           </div>
         </div>

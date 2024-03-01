@@ -6,7 +6,10 @@ import '../src/css/animations.css';
 import translateIcon from '../src/images/translate_icon.svg';
 import itGirlImage from '../src/images/IT-girl.jpg';
 import Navbar from './components/navbar';
-import homeContent from './components/homeContent';
+import HomeContent from './components/homeContent';
+import { BrowserRouter } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
+
 
 
 function App() {
@@ -18,7 +21,19 @@ function App() {
   return (
     <div>
       <Navbar onLanguageChange={handleLanguageChange} />
-      {homeContent()}
+      <BrowserRouter>
+        <Routes>
+          <Route path="/">
+            <Route index element={<HomeContent />} />
+
+            <Route path='explorer' element={< HomeContent />} />
+
+          </Route>
+
+        </Routes>
+
+      </BrowserRouter>
+      {HomeContent()}
     </div>
   );
 }
