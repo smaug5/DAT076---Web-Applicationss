@@ -21,14 +21,14 @@ test("End-to-end test", async () => {
   const res1 = await request.put("/api/project").send({
     "id": id,
     "title": title,
-    "desc": desc
+    "description": desc
   });
     expect(res1.statusCode).toEqual(200);
 
   const res1_2 = await request.put("/api/project").send({
     "id" : id2,
     "title" : title2,
-    "desc" : desc2
+    "description" : desc2
   })
    expect(res1_2.statusCode).toEqual(200);
    
