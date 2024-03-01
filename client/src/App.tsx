@@ -11,6 +11,7 @@ import AboutContent from './components/aboutContent';
 import ContactContent from './components/contactContent';
 import { BrowserRouter } from 'react-router-dom';
 import { Routes, Route } from 'react-router-dom';
+import ProjectContent from './components/projectContent';
 
 
 
@@ -31,6 +32,8 @@ function App() {
             <Route path='about' element={< AboutContent />} />
 
             <Route path='contact' element={< ContactContent />} />
+
+            <Route path='projects' element={< ProjectContent /> } />
 
           </Route>
 
