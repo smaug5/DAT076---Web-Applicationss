@@ -7,6 +7,8 @@ import translateIcon from '../src/images/translate_icon.svg';
 import itGirlImage from '../src/images/IT-girl.jpg';
 import Navbar from './components/navbar';
 import HomeContent from './components/homeContent';
+import AboutContent from './components/aboutContent';
+import ContactContent from './components/contactContent';
 import { BrowserRouter } from 'react-router-dom';
 import { Routes, Route } from 'react-router-dom';
 
@@ -20,20 +22,21 @@ function App() {
     };
   return (
     <div>
-      <Navbar onLanguageChange={handleLanguageChange} />
       <BrowserRouter>
+        <Navbar onLanguageChange={handleLanguageChange} />
         <Routes>
           <Route path="/">
             <Route index element={<HomeContent />} />
 
-            <Route path='explorer' element={< HomeContent />} />
+            <Route path='about' element={< AboutContent />} />
+
+            <Route path='contact' element={< ContactContent />} />
 
           </Route>
 
         </Routes>
 
       </BrowserRouter>
-      {HomeContent()}
     </div>
   );
 }
