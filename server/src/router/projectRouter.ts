@@ -16,13 +16,14 @@ projectRouter.get("/", async (
     }
 });
 
-projectRouter.get("/:id", async (
-    req: Request<{id : string}>,
+projectRouter.get("/:title", async (
+    req: Request<{title : string}>,
     res: Response<project | undefined>
 ) => {
     try {
-        const id : number = parseInt(req.params.id);
-        const project = await projectServices.getProject("Cool Construction Project"); 
+        const title : String = req.params.title;
+        const project = await projectServices.getProject(title);
+        console.log(project);
         res.status(200).send(project);
     } catch (e: any) {
         res.status(500).send(e.message);
