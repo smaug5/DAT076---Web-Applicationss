@@ -8,3 +8,8 @@
     color: rgb(255, 255, 255) !important;
     filter: drop-shadow(rgb(255, 255, 255) 0.1rem 0.1rem 15px);
   }
+
+#CV-button:hover {
+  opacity: 1;
+  filter: drop-shadow(#154853 0.1rem 0.1rem 5px);
+}
