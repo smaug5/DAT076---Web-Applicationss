@@ -35,8 +35,8 @@ const Navbar = ({ onLanguageChange }: { onLanguageChange: (language: string) => 
             <span className="navbar-toggler-icon"></span>
           </button>
   
-          <div className="collapse navbar-collapse align-navitems" id="navbarNavAltMarkup">
-            <div className="navbar-nav align-navitems">
+          <div className="collapse navbar-collapse align-navitems " id="navbarNavAltMarkup">
+            <div className="navbar-nav align-navitems ">
                 <Link className="nav-link" to="/">Home</Link>
                 <Link className="nav-link" to="/about">About</Link>
                 <Link className="nav-link" to="/contact">Contact</Link>

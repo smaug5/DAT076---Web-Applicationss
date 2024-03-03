@@ -35,7 +35,8 @@ body {
   padding-left:100px ;
   padding-right:35px ;
   align-self: center;
-  opacity: 0.6;
+  opacity: 0.7;
+  font-size: 1.1em;
 
 }
 
@@ -67,6 +68,7 @@ body {
 
 .white-svg {
   filter: invert(100%);
+  opacity: 1;
 }
 
 .mainBackground {
@@ -122,7 +124,7 @@ body {
   margin-bottom: 20px;
   font-size: 3em;
   color: white;
-  opacity: 0.8;
+  opacity: 1;
 }
 
 
@@ -135,7 +137,7 @@ body {
   margin-bottom: 20px;
   font-size: 1.5em;
   color: white;
-  opacity: 0.8;
+  opacity: 1;
 
 }
 
@@ -147,7 +149,7 @@ body {
 
 
 .navbar-custom {
-	background-color: #083644;
+	background-color: #1586AA;
 } 
 
 .material-symbols-outlined {
@@ -156,6 +158,12 @@ body {
   'wght' 400,
   'GRAD' 0,
   'opsz' 24
+}
+
+.navbar-item {
+  padding: 0 10px;
+  color: white;
+  opacity: 0.6;
 }
 
 
