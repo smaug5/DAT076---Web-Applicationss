@@ -16,13 +16,14 @@ import ProjectContent from './components/projectContent';
 
 
 function App() {
-    const [language, setLanguage] = useState('en'); // Default language
-  
-    const handleLanguageChange = (newLanguage: string) => {
-      setLanguage(newLanguage); 
-    };
+  const [language, setLanguage] = useState('en'); // Default language
+
+  const handleLanguageChange = (newLanguage: string) => {
+    setLanguage(newLanguage); 
+  };
+
   return (
-    <div>
+    <div className="full-height h-100">
       <BrowserRouter>
         <Navbar onLanguageChange={handleLanguageChange} />
         <Routes>

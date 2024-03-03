@@ -8,7 +8,7 @@ import itGirlImage from '../../src/images/IT-girl.jpg';
 import {project} from '../../../server/src/model/project'
 import axios from 'axios';
 
-export function projectContent({ projects } : { projects : project[] }) {
+export function ProjectContent() {
 
     const [theProjectList, setProjectList] = useState<project[]>([]);
 
@@ -16,17 +16,12 @@ export function projectContent({ projects } : { projects : project[] }) {
         setProjectList(newProjectList); 
     };
 
-    useEffect(() => {
-        updateProjects(handleProjectList);
-    }, [])
-
-
     updateProjects(handleProjectList);
-    
+
     return (
       <ul>
-        {projects.map((oneProject : project) =>
-        <li key={oneProject.title}>{oneProject.title} <br/> <img src={logo} alt="Logo" width="200px" /></li>
+        {theProjectList.map((oneProject : project) =>
+        <li key={String(oneProject.id)}>{oneProject.title} <br/> <img src={'../../src/images/IT-girl.jpg'} alt="Logo" width="200px" /></li> // Sample image currently, replace with oneProject.image once implemnted
         )}
       </ul>
     );
@@ -51,4 +46,4 @@ export async function updateProjects(handleProjectList: (newProjectList: project
 
 
 
-export default projectContent;
+export default ProjectContent;

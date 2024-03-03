@@ -1,20 +1,29 @@
-html, body {
+html, body, #root, .App {
     height: 100%;
     margin: 0;
-    background-color: #1586AA; /* Satta denna som default background color */
+    /*background-color: #1586AA; /* Satte denna som default background color */
     overflow: hidden /*disable scroll*/
 }
+
+body {
+  background-color: #1586AA;
+  background-image: url('../images/wave.svg');
+  /*Set background image to the bottom of the page,*/
+  background-position: center calc(100% + 400px);
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 100vh;
+}
+
 
 
 /* ----------------------- Layout ----------------------- */
 
 .full-height {
-    height: calc(100% - 30px); /* Mitt försök att göra så att Navbar inte ska göra så att sidan pushas ner */
-    background-color: rgb(255, 153, 0);
-
+    min-height: 100%; /* Mitt försök att göra så att Navbar inte ska göra så att sidan pushas ner */
 }
 .half-box{
-  height: calc(50% - 30px);
+  height: 50%;
 }
 
 .navbar-nav {
@@ -44,6 +53,11 @@ html, body {
   justify-content: center;
 }
 
+.App {
+  display: flex;
+  flex-direction: column;
+}
+
 
 /* ----------------------- Color Scheme ----------------------- */
 
@@ -60,13 +74,32 @@ html, body {
 }
 
 
-.bit-girl{
+.bit-girl{ /* 
     max-width: 50%;
-    max-height: 50%;
-    display: block;
-    margin: auto;
+    max-height: 50%; */
+    border-radius: 50%;
+    object-fit: cover; 
+    height: auto; 
+    width: 50%;
+    padding: 0;
+    margin-top: -80px;
+}
 
 
+.blue-background {
+  background-color: blue;
+}
+.red-background {
+  background-color: red;
+}
+.green-background {
+  background-color: green;
+}
+.yellow-background {
+  background-color: yellow;
+}
+.purple-background {
+  background-color: purple;
 }
 
 /* ----------------------- Text Styling ----------------------- */
@@ -77,6 +110,33 @@ html, body {
   border-bottom-width: 0.5px;
   padding-bottom: 2px !important; /* Detta bestämmer distansen till underlinen, Eller ja... det borde göra det men piss-koden funkar inte :( Den typ flyttar runt "active" element på något whack sätt istället*/
   opacity: 0.8;
+}
+
+.headline {  
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; 
+  align-items: center; 
+  padding: 0 10%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-size: 3em;
+  color: white;
+  opacity: 0.8;
+}
+
+
+.description{
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 0 10%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-size: 1.5em;
+  color: white;
+  opacity: 0.8;
+
 }
 
 
@@ -97,3 +157,5 @@ html, body {
   'GRAD' 0,
   'opsz' 24
 }
+
+
