@@ -6,8 +6,16 @@
 .nav-link:hover {
     opacity: 1;
     color: rgb(255, 255, 255) !important;
-    filter: drop-shadow(rgb(255, 255, 255) 0.1rem 0.1rem 15px);
+    background-color:#15485339;
+    border-radius: 10px;
   }
+
+.active:hover{
+  border-radius: 0px;
+  background-color: #1586AA;
+}
+
+
 
 #CV-button:hover {
   opacity: 1;

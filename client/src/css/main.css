@@ -21,9 +21,15 @@ body {
 
 .full-height {
     min-height: 100%; /* Mitt försök att göra så att Navbar inte ska göra så att sidan pushas ner */
+    height: 100%;
 }
 .half-box{
-  height: 35%;
+  height: 30%;
+}
+
+.fill-parent {
+  width: 100%;
+  height: 100%;
 }
 
 .navbar-nav {
@@ -37,7 +43,7 @@ body {
   align-self: center;
   opacity: 0.7;
   font-size: 1.1em;
-
+  border-radius: 10px;
 }
 
 .align-navitems {
@@ -110,8 +116,13 @@ body {
 .active {  /* Detta betyder att stylingen appliceras på allt som är en "active" class */
   border-bottom: 1px solid currentColor !important; 
   border-bottom-width: 0.5px;
-  padding-bottom: 2px !important; /* Detta bestämmer distansen till underlinen, Eller ja... det borde göra det men piss-koden funkar inte :( Den typ flyttar runt "active" element på något whack sätt istället*/
-  opacity: 0.8;
+  /*padding-bottom: 2px !important;  Detta bestämmer distansen till underlinen, Eller ja... det borde göra det men piss-koden funkar inte :( Den typ flyttar runt "active" element på något whack sätt istället*/
+  opacity: 1;
+  border-radius: 0px;
+}
+
+.inactive {
+  opacity: 0.6;
 }
 
 .headline {  
@@ -120,9 +131,16 @@ body {
   justify-content: flex-end; 
   align-items: center; 
   padding: 0 10%;
+  width: 100%;
   margin-top: 20px;
   margin-bottom: 20px;
-  font-size: 3em;
+  
+}
+
+#headline-text {
+  width: 70%;
+  text-align: start;
+  font-size: 2.5em;
   color: white;
   opacity: 1;
 }
@@ -131,14 +149,19 @@ body {
 .description{
   display: flex;
   justify-content: center;
-  align-items: flex-start;
-  padding: 0 10%;
+  align-items: center;
+  /*padding: 0 10%;*/
   margin-top: 20px;
   margin-bottom: 20px;
-  font-size: 1.5em;
+
+}
+
+#description-text {
+  width: 60%;
+  text-align: start;
+  font-size: 1.2em;
   color: white;
   opacity: 1;
-
 }
 
 
@@ -169,26 +192,53 @@ body {
 #CV-button {
   background-color: #154853;
   color: white;
-  border: 0.5px solid black;
+  border: none;
   border-radius: 5px;
   padding: 10px 20px;
-  font-size: 1.2em;
+  font-size: 1em;
   opacity: 0.8;
   transition: 0.3s;
   filter: drop-shadow(0px 4px 1px #0c2930);
+  /* center button */
 }
 
 #button-container {
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   margin-top: 20px;
   margin-bottom: 20px;
   height: 100px;
   width: auto;
-  font-size: 0.7em;
-  color: white;
-  opacity: 1;
 }
 
 
+#social-media-icon {
+  width: 100%;
+  height: 100%;
+  margin: 10px;
+  transition: 0.3s;
+  filter: drop-shadow(0px 2px 4px #154853);
+  opacity: 0.8;
+}
+
+#social-media {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: auto;
+  width: auto;
+  background-color: transparent;
+  border: none;
+}
+
+#social-media-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  border: none;
+  vertical-align: top;
+  
+}

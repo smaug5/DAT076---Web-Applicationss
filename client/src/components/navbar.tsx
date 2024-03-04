@@ -4,7 +4,7 @@ import '../App.css';
 import '../../src/css/main.css';
 import '../../src/css/animations.css';
 import translateIcon from '../../src/images/translate_icon.svg';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 
 const Navbar = ({ onLanguageChange }: { onLanguageChange: (language: string) => void }) => {
@@ -37,10 +37,15 @@ const Navbar = ({ onLanguageChange }: { onLanguageChange: (language: string) => 
   
           <div className="collapse navbar-collapse align-navitems " id="navbarNavAltMarkup">
             <div className="navbar-nav align-navitems ">
-                <Link className="nav-link" to="/">Home</Link>
-                <Link className="nav-link" to="/about">About</Link>
-                <Link className="nav-link" to="/contact">Contact</Link>
-                <Link className="nav-link" to="/projects">Projects</Link>
+                {/* <Link className="nav-link" to="/" >Home</Link> */}
+                <NavLink to="/" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>Home </NavLink>
+                {/* <Link className="nav-link" to="/about">About</Link> */}
+                <NavLink to="/about" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>About </NavLink>
+                {/* <Link className="nav-link" to="/contact">Contact</Link> */}
+                <NavLink to="/contact" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>Contact </NavLink>
+                {/* <Link className="nav-link" to="/projects">Projects</Link> */}
+                <NavLink to="/projects" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>Projects </NavLink>
+
             </div>
           </div>
         </div>
