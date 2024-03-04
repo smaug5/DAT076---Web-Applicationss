@@ -9,7 +9,7 @@ import Navbar from './components/navbar';
 import HomeContent from './components/homeContent';
 import AboutContent from './components/aboutContent';
 import ContactContent from './components/contactContent';
-import Login from './components/logIn';
+import Login from './components/login';
 import { BrowserRouter } from 'react-router-dom';
 import { Routes, Route } from 'react-router-dom';
 import ProjectContent from './components/projectContent';
