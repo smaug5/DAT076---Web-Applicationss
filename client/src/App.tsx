@@ -37,8 +37,6 @@ function App() {
 
             <Route path='projects' element={< ProjectContent /> } />
 
-            <Route path='adminlogin' element={< Login /> } />
-
           </Route>
 
         </Routes>
