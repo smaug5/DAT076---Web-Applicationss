@@ -1,7 +1,7 @@
 
 import React from 'react'; 
 
-function logIn(props) {
+function Login(props) {
     return (props.trigger) ? (
         <div className="login">
             <div className='login-inner'>
@@ -12,4 +12,4 @@ function logIn(props) {
     ) : "";
 }
 
-export default logIn
+export default Login
