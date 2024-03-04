@@ -13,7 +13,7 @@ import Login from './components/login';
 import { BrowserRouter } from 'react-router-dom';
 import { Routes, Route } from 'react-router-dom';
 import ProjectContent from './components/projectContent';
-
+import AddProject from './components/addProject';
 
 
 function App() {
@@ -35,7 +35,14 @@ function App() {
 
             <Route path='contact' element={< ContactContent />} />
 
-            <Route path='projects' element={< ProjectContent /> } />
+            <Route path='projects' element={< ProjectContent /> }>
+
+              <Route path='addproject' element={< AddProject />} />
+
+            </Route>
+
+            
+              
 
           </Route>
 
