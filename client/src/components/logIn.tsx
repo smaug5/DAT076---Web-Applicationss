@@ -1,7 +1,8 @@
 
 import React from 'react'; 
 
-function Login(props) {
+
+function Login(props : any) {
     return (props.trigger) ? (
         <div className="login">
             <div className='login-inner'>
