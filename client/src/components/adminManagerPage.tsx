@@ -6,10 +6,10 @@ import '../../src/css/animations.css';
 import translateIcon from '../../src/images/translate_icon.svg';
 import itGirlImage from '../../src/images/IT-girl.jpg';
 
-export function AddProject() {
+export function AdminManagerPage() {
     return (
-        <p> About us </p>
+        <p> Add projects us </p>
     );
   }
 
-export default AddProject;
+export default AdminManagerPage;
