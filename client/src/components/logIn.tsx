@@ -1,11 +1,10 @@
 
 import React from 'react'; 
-import { Modal } from 'react-bootstrap';
+import { Modal as BootstrapModal } from 'react-bootstrap';
 
 interface LoginModal {
     open: boolean;
     onClose: () => void;
-
 }
 
 export default function Modal(props: LoginModal) {
