@@ -1,8 +1,14 @@
 import express, { Request, Response } from "express";
 import { project } from "../model/project";
 import { projectServices, projectService } from "../service/projectService";
+import multer from "multer";
+
 
 export const projectRouter = express.Router();
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
+
 
 projectRouter.get("/", async (
     req: Request,
@@ -30,19 +36,34 @@ projectRouter.get("/:title", async (
     }
 });
 
-projectRouter.put("/", async (
-    req: Request<{},string,{title : string, description : string, imageID ?: string, url ?: string}>,
-    res: Response<string>
-) => {
-    try {
-        console.log(req.body);
-        const title : string = req.body.title;
-        console.log(`Title: ${title}`)
-        const description : string = req.body.description;
-        console.log(`Description: ${description}`)
-        await projectServices.addProject(0, title, description);
-        res.status(200).send("Project added succesfully");
-    } catch (e: any) {
-        res.status(500).send(e.message);
+
+projectRouter.put('/project', upload.single('image'), async (req, res) => {
+try {
+    console.log(req.body);
+    const tit : string = req.body.title;
+    console.log(`Title: ${tit}`)
+    const desc : string = req.body.description;
+    console.log(`Description: ${desc}`)
+
+    const { title, url, description } = req.body;
+    let imageData = null;
+
+    if (req.file) {
+        imageData = req.file.buffer.toString('base64');
     }
+ 
+    const newProject: project = {
+        title: title,
+        description: description,
+        image: imageData,
+        url: url
+    }
+
+    const projectId = await projectServices.addProject(newProject);
+    
+    res.status(201).json({ message: 'Project added successfully', id: projectId });
+} catch (error) {
+    console.error('Error submitting form:', error);
+    res.status(500).json({ message: 'Failed to add project' });
+}
 });

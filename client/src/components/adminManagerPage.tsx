@@ -28,7 +28,7 @@ export function AdminManagerPage() {
     }
 
     try {
-      const response = await axios.put('', formData, {
+      const response = await axios.put('http://localhost:8080/api/project', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -88,7 +88,7 @@ export function AdminManagerPage() {
           <Form.Control type="file" onChange={handleImageChange} />
         </Form.Group>
 
-        <Button variant="primary" type="submit">
+        <Button variant="primary" type="submit" id="CV-button">
           Submit
         </Button>
       </Form>

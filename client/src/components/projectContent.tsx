@@ -21,7 +21,7 @@ export function ProjectContent() {
     return (
       <ul>
         {theProjectList.map((oneProject : project) =>
-        <li key={String(oneProject.id)}>{oneProject.title} <br/> <img src={'../../src/images/IT-girl.jpg'} alt="Logo" width="200px" /></li> // Sample image currently, replace with oneProject.image once implemnted
+        <li key={String(oneProject.title)}>{oneProject.title} <br/> <img src={'../../src/images/IT-girl.jpg'} alt="Logo" width="200px" /></li> // Sample image currently, replace with oneProject.image once implemnted
         )}
       </ul>
     );

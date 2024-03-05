@@ -1,10 +1,13 @@
 import { title } from "process";
 import { project } from "../model/project";
+import { Document, MongoClient, OptionalId } from 'mongodb';
 
 export class projectService {
    
-   // private project : id;
-   private projects: project[] = [] // Add so this is equal to all projects in the database.
+    // private project : id;
+    private projects: project[] = [] // Add so this is equal to all projects in the database.
+    mongoURI = 'coolDatabasURI';
+
 
 
     async getAllProjects(): Promise<project[]> {
@@ -20,19 +23,24 @@ export class projectService {
     }
         
 
-    async addProject(id: Number, title: String, description: String, urlAddress ?: String) {
-        const project: project = {
-            id: id,
-            title: title,
-            description: description,
-           // imageID: imageID,  // add when we can handle files
-            url: urlAddress
-          };
+    async addProject(project: project) {
+        const client = new MongoClient(this.mongoURI);
+        try {
+          await client.connect();
+          const db = client.db('coolDB');
+          const collection = db.collection('projects'); // Den här collectionen finns inte ej, men bör skapas till databasen
           
-        this.projects.push(project);
-        // include code to add it to the database
+          const result = await collection.insertOne(project);
+          this.projects.push(project);
 
-    }
+          return result.insertedId;
+        } catch (error) {
+          console.error('Error adding project to the database:', error);
+          throw error;  
+        } finally {
+          await client.close();
+        }
+      }
 
     async removeProject(title: String) {
 
