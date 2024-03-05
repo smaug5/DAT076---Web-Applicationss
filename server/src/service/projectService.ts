@@ -6,8 +6,7 @@ export class projectService {
    
     // private project : id;
     private projects: project[] = [] // Add so this is equal to all projects in the database.
-    mongoURI = 'coolDatabasURI';
-
+    mongoURI = 'mongodb+srv://portfoliowap:HackerCatNos@portfolio.zyejove.mongodb.net/?retryWrites=true&w=majority&appName=Portfolio';
 
 
     async getAllProjects(): Promise<project[]> {
@@ -28,6 +27,10 @@ export class projectService {
         try {
           await client.connect();
           const db = client.db('coolDB');
+          // Send a ping to confirm a successful connection
+          await client.db("admin").command({ ping: 1 });
+          console.log("Pinged your deployment. You successfully connected to MongoDB!");
+
           const collection = db.collection('projects'); // Den här collectionen finns inte ej, men bör skapas till databasen
           
           const result = await collection.insertOne(project);
