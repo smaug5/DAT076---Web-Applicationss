@@ -37,7 +37,7 @@ projectRouter.get("/:title", async (
 });
 
 
-projectRouter.put('/project', upload.single('image'), async (req, res) => {
+projectRouter.put('/', upload.single('image'), async (req, res) => {
 try {
     console.log(req.body);
     const tit : string = req.body.title;

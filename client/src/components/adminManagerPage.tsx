@@ -1,13 +1,10 @@
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Form, Button, Container } from 'react-bootstrap';
 import '../App.css';
 import '../../src/css/main.css';
 import '../../src/css/animations.css';
-import translateIcon from '../../src/images/translate_icon.svg';
-import itGirlImage from '../../src/images/IT-girl.jpg';
 import axios from 'axios';
-import { log } from 'console';
 
 
 export function AdminManagerPage() {
@@ -18,7 +15,6 @@ export function AdminManagerPage() {
 
   const handleSubmit = async (event: { preventDefault: () => void; }) => {
     event.preventDefault();
-
     const formData = new FormData();
     formData.append('title', title);
     formData.append('url', url);
@@ -26,6 +22,10 @@ export function AdminManagerPage() {
     if (image) {
       formData.append('image', image);
     }
+    console.log('Submitting form with form data: \n')
+    for (let [key, value] of formData.entries()) { //This shows the each form data entry thing
+      console.log(`${key}: ${value}`);
+    }  
 
     try {
       const response = await axios.put('http://localhost:8080/api/project', formData, {
@@ -33,9 +33,16 @@ export function AdminManagerPage() {
           'Content-Type': 'multipart/form-data',
         },
       });
-      console.log('Success!');
+      console.log('Put request successfully sent and received! Data received: \n');
       console.log(response.data);
-      // Handle response here, clear form etc
+      // Clear form here:
+      /*
+      setTitle('');
+      setUrl('');
+      setDescription('');
+      setImage(null);*/
+
+
     } catch (error) {
       console.error('Error submitting form:', error);
       // Handle error here, set an error message on website
