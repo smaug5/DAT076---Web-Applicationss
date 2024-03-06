@@ -10,7 +10,30 @@ export class projectService {
 
 
     async getAllProjects(): Promise<project[]> {
+      const client = new MongoClient(this.mongoURI);
+      try {
+        await client.connect();
+        const db = client.db('britt-marie-wap');
+        // Send a ping to confirm a successful connection
+        await client.db("admin").command({ ping: 1 });
+        console.log("Pinged your deployment. You successfully connected to MongoDB!");
+
+        const collection = db.collection('projects');
+        const cursor = collection.find();
+        const projects = await cursor.toArray();
+
+        console.log("Projects from the database:")
+        console.log(projects);
+
         return JSON.parse(JSON.stringify(this.projects));
+      }
+      catch (error) {
+        console.error('Error getting projects from the database:', error);
+        throw error;  
+      } finally {
+        await client.close();
+      }
+
     };
     
     async getProject(projectName: String): Promise<project | undefined> {
@@ -26,12 +49,12 @@ export class projectService {
         const client = new MongoClient(this.mongoURI);
         try {
           await client.connect();
-          const db = client.db('coolDB');
+          const db = client.db('britt-marie-wap');
           // Send a ping to confirm a successful connection
           await client.db("admin").command({ ping: 1 });
           console.log("Pinged your deployment. You successfully connected to MongoDB!");
 
-          const collection = db.collection('projects'); // Den här collectionen finns inte ej, men bör skapas till databasen
+          const collection = db.collection('projects'); 
           
           const result = await collection.insertOne(project);
           this.projects.push(project);
