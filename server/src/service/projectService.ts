@@ -58,6 +58,8 @@ export class projectService {
     }
         
 
+
+
     async addProject(project: project) {
         const client = new MongoClient(this.mongoURI);
         try {
@@ -82,11 +84,21 @@ export class projectService {
       }
 
     async removeProject(title: String) {
+        const client = new MongoClient(this.mongoURI);
+        try {
+          await client.connect();
+          const db = client.db('britt-marie-wap');
+          await client.db("admin").command({ ping: 1 });
+          console.log("Pinged your deployment for remodeProject(). Your successfully connected to MongoDB!");
 
-        this.projects = this.projects.filter((element) => element.title !== title);
-        //Use DB to remove specific project
-      
-        //Use title to find project in DB, Remove it.
+          const collection = db.collection('projects');
+          
+          await collection.deleteOne({ title: title });
+          
+        }
+
+        // this.projects = this.projects.filter((element) => element.title !== title);
+        
     }
 
 }
