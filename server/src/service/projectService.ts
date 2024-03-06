@@ -14,20 +14,28 @@ export class projectService {
       try {
         await client.connect();
         const db = client.db('britt-marie-wap');
+
         // Send a ping to confirm a successful connection
         await client.db("admin").command({ ping: 1 });
-        console.log("Pinged your deployment. You successfully connected to MongoDB!");
+        console.log("Pinged your deployment for getAllProjects(). You successfully connected to MongoDB!");
 
         const collection = db.collection('projects');
         const cursor = collection.find();
         const results = await cursor.toArray();
 
         console.log("Projects from the database:")
-        console.log(results);
+        console.log(results);        
 
         // Turn results into project[] objects
-
-
+        this.projects = results.map((project: any) => {
+          return {
+            title: project.title,
+            description: project.description,
+            image: project.image,
+            url: project.url
+          }
+        });
+        
         return JSON.parse(JSON.stringify(this.projects));
       }
       catch (error) {
@@ -55,7 +63,7 @@ export class projectService {
           const db = client.db('britt-marie-wap');
           // Send a ping to confirm a successful connection
           await client.db("admin").command({ ping: 1 });
-          console.log("Pinged your deployment. You successfully connected to MongoDB!");
+          console.log("Pinged your deployment for addProject(). You successfully connected to MongoDB!");
 
           const collection = db.collection('projects'); 
           

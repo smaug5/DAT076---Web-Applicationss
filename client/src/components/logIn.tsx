@@ -1,19 +1,22 @@
 
 import React from 'react'; 
-import { Modal as BootstrapModal } from 'react-bootstrap';
+import { Buttonn, Modal as Bootstra
+    pModal } from 'react-bootstrap';
 
 interface LoginModal {
     open: boolean;
-    onClose: () => void;
+    toggle: () => void;
 }
 
-export default function Modal(props: LoginModal) {
+export default function Modal:(props: LoginModal) {
     return (
-        <>
-            <div className="modal-overlay">
-                <div className="modal-box">
-                </div>
-            </div>
-        </>
-    );
-}
+        <div className=("the css")
+        toggle={() => open(true)}
+        >
+            Admin Login
+            </button>
+            <Modal open={open} onClose={() => setOpen(false)}>
+                <div className="css"></div>
+                )
+                }
+                c

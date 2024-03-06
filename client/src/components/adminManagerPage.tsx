@@ -56,6 +56,31 @@ export function AdminManagerPage() {
     setImage(event.target.files[0]);
   };
 
+  const [delTitle, setDelTitle] = useState('');
+
+  const handleDelete = async (event: { preventDefault: () => void; }) => {
+    event.preventDefault();
+    const formData = new FormData();
+    formData.append('title', delTitle);
+    console.log('Deleting project' + delTitle);
+
+    try {
+      const response = await axios.delete('http://localhost:8080/api/project${formData}')
+      .then(response => {
+        console.log('Deleted project with name ${formData}');
+      });
+
+      // Clear form:
+      /*
+      setDelTitle('');
+      */
+    } catch (error) {
+      console.error('Error submitting form:', error);
+    }
+    };
+
+  };
+
   return (
     <Container>
       <Form onSubmit={handleSubmit}>
@@ -99,6 +124,14 @@ export function AdminManagerPage() {
           Submit
         </Button>
       </Form>
+
+
+
+
+    <Form onSubmit={handleDelete}>
+
+
+    </Form>
     </Container>
   );
   }

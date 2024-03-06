@@ -16,6 +16,12 @@ projectRouter.get("/", async (
 ) => {
     try {
         const allprojects = await projectServices.getAllProjects(); 
+
+        allprojects.forEach((project) => { //Decode image data from Base64 to image file
+            if (project.image) {
+                project.image = `data:image/png;base64,${project.image}`;
+            }
+        })
         res.status(200).send(allprojects);
     } catch (e: any) {
         res.status(500).send(e.message);
