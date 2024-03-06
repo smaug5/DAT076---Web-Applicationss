@@ -20,10 +20,13 @@ export class projectService {
 
         const collection = db.collection('projects');
         const cursor = collection.find();
-        const projects = await cursor.toArray();
+        const results = await cursor.toArray();
 
         console.log("Projects from the database:")
-        console.log(projects);
+        console.log(results);
+
+        // Turn results into project[] objects
+
 
         return JSON.parse(JSON.stringify(this.projects));
       }
