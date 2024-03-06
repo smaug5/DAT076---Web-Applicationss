@@ -105,9 +105,9 @@ export class projectService {
         // this.projects = this.projects.filter((element) => element.title !== title);
         
     }
-    }
+    
 
-}
+
 
 
 export const projectServices: projectService = new projectService();
