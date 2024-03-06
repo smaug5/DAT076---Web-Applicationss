@@ -94,11 +94,17 @@ export class projectService {
           const collection = db.collection('projects');
           
           await collection.deleteOne({ title: title });
+          await client.close();
           
+        } catch (error) {
+          console.error('Error removing project from the database:', error);
+        }
+        
         }
 
         // this.projects = this.projects.filter((element) => element.title !== title);
         
+    }
     }
 
 }
