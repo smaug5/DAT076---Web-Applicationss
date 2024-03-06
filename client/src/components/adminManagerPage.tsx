@@ -67,7 +67,7 @@ export function AdminManagerPage() {
     try {
       const response = await axios.delete('http://localhost:8080/api/project')
       .then(response => {
-        console.log('Deleted project with name: ' + ´formData);
+        console.log('Deleted project with name: ' + formData);
       });
 
       // Clear form:
@@ -78,13 +78,7 @@ export function AdminManagerPage() {
     } catch (error) {
       console.error('Error submitting form:', error);
     }
-<<<<<<< Updated upstream
-  
-
-};
-=======
   };
->>>>>>> Stashed changes
 
   
 
