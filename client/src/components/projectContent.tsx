@@ -21,7 +21,10 @@ export function ProjectContent() {
     return (
       <ul>
         {theProjectList.map((oneProject : project) =>
-        <li key={String(oneProject.title)}>{oneProject.title} <br/> <img src={'../../src/images/IT-girl.jpg'} alt="Logo" width="200px" /></li> // Sample image currently, replace with oneProject.image once implemnted
+        <li key={String(oneProject.title)}>{oneProject.title} <br/> 
+          <img src={itGirlImage} alt="Project-image" width="200px"/>  {/*Sample image currently, replace with oneProject.image once implemnted*/}
+          <br/> {oneProject.description} <br/> {oneProject.url}
+        </li> 
         )}
       </ul>
     );
@@ -33,7 +36,6 @@ export async function updateProjects(handleProjectList: (newProjectList: project
     setTimeout(async () => {
       try {
         const response = await axios.get<project[]>("http://localhost:8080/api/project")
-        console.log(response.data);
         const newProjects : project[] = response.data;
         handleProjectList(newProjects);
       } catch (error : any) {
