@@ -8,7 +8,7 @@ export class adminService {
     
     async verifyPassword(password: String): Promise<Boolean> { //Return true if verified
         // Replace this with code to verify password
-        const validInput = 
+        
 
 
         return (password=="HorseInThisHouse")
