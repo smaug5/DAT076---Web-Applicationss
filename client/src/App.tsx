@@ -23,12 +23,6 @@ function App() {
     setLanguage(newLanguage); 
   };
 
-  const [isModalVisible, setIsModalState] = useState(false)
-
-  const toggleModal = () => {
-    setIsModalState(wasModalVisible => !wasModalVisible)
-  }
-
   return (
     <div className="full-height h-100">
       <BrowserRouter>

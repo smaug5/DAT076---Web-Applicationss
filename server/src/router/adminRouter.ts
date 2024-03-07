@@ -1,7 +1,14 @@
 import express, { Request, Response } from "express";
 import { adminwaplogin, adminService } from "../service/adminService";
+import { Session } from "inspector";
 
 export const adminRouter = express.Router();
+//add in start.ts
+
+interface RegisterRequest extends Request {
+    params : {},
+    body : { password : string }
+}
 
 adminRouter.get("/", async (
     req: Request,
