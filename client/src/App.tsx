@@ -9,11 +9,11 @@ import Navbar from './components/navbar';
 import HomeContent from './components/homeContent';
 import AboutContent from './components/aboutContent';
 import ContactContent from './components/contactContent';
-//import Login from './components/login';
 import { BrowserRouter } from 'react-router-dom';
 import { Routes, Route } from 'react-router-dom';
 import ProjectContent from './components/projectContent';
 import AdminManagerPage from './components/adminManagerPage';
+
 
 
 function App() {
@@ -23,10 +23,10 @@ function App() {
     setLanguage(newLanguage); 
   };
 
-  const [isModalVisible, setIsModalVisible] = useState(false)
+  const [isModalVisible, setIsModalState] = useState(false)
 
   const toggleModal = () => {
-    setIsModalVisible(wasModalVisible => !wasModalVisible)
+    setIsModalState(wasModalVisible => !wasModalVisible)
   }
 
   return (

@@ -124,15 +124,16 @@ export function AdminManagerPage() {
           Submit
         </Button>
       </Form>
-
-
-
-
     <Form onSubmit={handleDelete}>
-
-
     </Form>
+
+  
+      <Button>
+        Login
+      </Button>
+
     </Container>
+
   );
   }
 
