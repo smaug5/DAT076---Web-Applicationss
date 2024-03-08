@@ -1,6 +1,7 @@
 import { title } from "process";
 import { project } from "../model/project";
 import { Document, MongoClient, OptionalId } from 'mongodb';
+import { conn } from "../../../server/db/conn";
 
 export class projectService {
    
@@ -61,14 +62,17 @@ export class projectService {
 
 
     async addProject(project: project) {
+
         const client = new MongoClient(this.mongoURI);
+
         try {
           await client.connect();
+
           const db = client.db('britt-marie-wap');
+
           // Send a ping to confirm a successful connection
           await client.db("admin").command({ ping: 1 });
           console.log("Pinged your deployment for addProject(). You successfully connected to MongoDB!");
-
           const collection = db.collection('projects'); 
           
           const result = await collection.insertOne(project);

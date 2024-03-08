@@ -132,7 +132,7 @@ export function AdminManagerPage() {
         <Form.Control
           type="text"
           placeholder="Enter project to delete"
-          value={title}
+          value={delTitle}
           onChange={(e) => setTitle(e.target.value)}
           />
         </Form.Group>

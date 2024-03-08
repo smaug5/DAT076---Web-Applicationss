@@ -59,8 +59,8 @@ try {
     }
  
     const newProject: project = {
-        title: title,
-        description: description,
+        title: tit,
+        description: desc,
         image: imageData,
         url: url
     }
