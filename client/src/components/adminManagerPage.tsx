@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Form, Button, Container, FormLabel, FormControl } from 'react-bootstrap';
 import '../App.css';
 import '../../src/css/main.css';
@@ -91,6 +91,10 @@ export function AdminManagerPage() {
 // Functions and variables to handle CV upload --------------------------------------------------------------
   const [selectedCVFile, setSelectedCVFile] = useState(null);
 
+  useEffect(() => {
+    getPdf();
+  }, []);
+  
   const handleFileChange = (event: {target: any; preventDefault: () => void; }) => {
     event.preventDefault();
     setSelectedCVFile(event.target.files[0]);

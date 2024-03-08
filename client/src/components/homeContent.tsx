@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../App.css';
 import '../../src/css/main.css';
 import '../../src/css/animations.css';
@@ -12,6 +12,8 @@ import linkedin from '../images/icon_linkedin.svg';
 import twitter from '../images/icon_twitter.svg';
 import axios from 'axios';
 import { saveAs } from 'file-saver';
+import { pdfjs } from "react-pdf";
+import PdfComp from "../components/pdfComp";
 
 
 export function mainContent() {
@@ -43,20 +45,28 @@ export function mainContent() {
     });
 };
 
-const getPdf = async () => {
-  try {
-    const result = await axios.get("http://localhost:8080/api/cv", { responseType: 'blob' });
-    if (result.data.type !== "application/pdf") {
-      console.error('Received data is not a PDF.');
-      return;
-    }
 
-    const pdfBlob = new Blob([result.data], { type: 'application/pdf' });
-    saveAs(pdfBlob, 'downloaded.pdf');
-  } catch (error) {
-    console.error('Error while downloading the file:', error);
-  }
-};
+  useEffect(() => {
+    getPdf();
+  }, []);
+
+  const [allImage, setAllImage] = useState(null);
+  const [pdfFile, setPdfFile] = useState(null);
+
+  const getPdf = async () => {
+    try {
+      const result = await axios.get("http://localhost:8080/api/cv");
+      setAllImage(result.data.data);
+
+    } catch (error) {
+      console.error('Error while downloading the file:', error);
+    }
+  };
+
+  pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+    "pdfjs-dist/build/pdf.worker.min.js",
+    import.meta.url
+  ).toString();
 
 
 
@@ -106,6 +116,7 @@ const getPdf = async () => {
     </Container>
   );
 }
+
 
 
 export default mainContent;

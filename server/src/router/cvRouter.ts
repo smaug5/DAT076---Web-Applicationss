@@ -7,6 +7,7 @@ import { app } from "../start";
 import e from "express";
 import {uri} from "../../db/conn";
 import * as fs from 'fs';
+import { Readable } from "stream";
 
 
 export const cvRouter = express.Router();
@@ -20,7 +21,14 @@ mongoose
   })
   .catch((e: any) => console.log(e));
 
+
+let connection = mongoose.connection;
+
+
 const multer = require('multer');
+
+const Grid = require("gridfs-stream");
+const config = require("config");
 
 const storage = multer.diskStorage({
   destination: function (req: any, file: any, cb: any) {
@@ -36,6 +44,80 @@ const cvSchema = mongoose.model('cv');
 const upload = multer({ storage: storage });
 
 
+connection.on("open", ()=> {
+  console.log("connection established successfully")
+  let bucket = new mongoose.mongo.GridFSBucket(mongoose.connection.db)
+
+  const  storage =  multer.memoryStorage()
+const upload  =   multer({storage})
+
+  app.post("/upload",upload.single("file"), async (req, res)=> {
+      let {file} =  req
+      console.log(file)
+
+      let {fieldname, originalname, mimetype, buffer} = file
+
+      let newFile = new File({
+            filename: file.originalname,
+            contentType: mimetype,
+            length: buffer.length,
+      })
+
+
+      try{
+          let uploadStream = bucket.openUploadStream(fieldname)
+          let readBuffer = new Readable()
+          readBuffer.push(buffer)
+          readBuffer.push(null)
+  
+  
+          const isUploaded = await new Promise((resolve, reject)=>{
+              readBuffer.pipe(uploadStream)
+              .on("finish", resolve("successfull"))
+              .on("error" , reject("error occured while creating stream") )
+          })
+  
+          
+          newFile.id = uploadStream.id
+         let savedFile =  await newFile.save()
+         if(!savedFile){
+          return res.status(404).send("error occured while saving our work")
+         }
+         return res.send({file: savedFile, message: "file uploaded successfully"})
+      }
+      catch(err){
+res.send("error uploading file")
+      }
+
+  
+  })
+
+  app.get("/image/:fileId", (req, res)=>{
+      let {fileId} = req.params
+
+      let downloadStream = bucket.openDownloadStream( new mongoose.Types.ObjectId(fileId))
+
+      downloadStream.on("file", (file:any)=>{
+          res.set("Content-Type", file.contentType)
+      })
+
+      downloadStream.pipe(res)
+  })
+})
+
+/* Latest
+cvRouter.put("/", upload.single("cv"), async (req, res) => {
+  console.log('req.file: ', req.file);
+  const file = req.file;
+  try {
+    await cvSchema.deleteMany({});
+    await cvSchema.create({ pdf: file });
+    res.send({ status: "ok" });
+  } catch (error) {
+    res.json({ status: error });
+  }
+}); */
+/* 
 cvRouter.put('/', upload.single('cv'), async (
   req: Request, 
   res: Response
@@ -50,7 +132,7 @@ cvRouter.put('/', upload.single('cv'), async (
     } catch (error){
       res.json({ status: error });
     }
-});
+}); */
 
 /*
 cvRouter.get("/", async (
@@ -72,26 +154,17 @@ cvRouter.get("/", async (
   }
 });*/
 
+/*  Latest
 app.get("/api/cv", async (req, res) => {
   try {
-    const cv = await cvSchema.findOne();
-    if (!cv || !cv.pdf) {
-      return res.status(404).send('No CV found');
-    }
-
-    const filePath = `./files/${cv.pdf}`;
-    if (!fs.existsSync(filePath)) {
-      return res.status(404).send('File not found');
-    }
-
-    res.setHeader('Content-Disposition', 'inline; filename="' + encodeURIComponent(cv.pdf) + '"');
-    res.type('application/pdf');
-    res.sendFile(filePath, { root: '.' });
+    cvSchema.find({}).then((data: any) => {
+      res.send({ status: "ok", data: data });
+    });
   } catch (error) {
     console.error(error);
     res.status(500).send('An error occurred');
   }
-});
+}); */
 
 
 
