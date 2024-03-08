@@ -8,6 +8,8 @@ import axios from 'axios';
 
 
 export function AdminManagerPage() {
+
+// Functions and variables to handle project adding ---------------------------------------------------------
   const [title, setTitle] = useState('');
   const [url, setUrl] = useState('');
   const [description, setDescription] = useState('');
@@ -33,6 +35,7 @@ export function AdminManagerPage() {
           'Content-Type': 'multipart/form-data',
         },
       });
+      alert('Project added successfully!');
       console.log('Put request successfully sent and received! Data received: \n');
       console.log(response.data);
       // Clear form here:
@@ -45,19 +48,19 @@ export function AdminManagerPage() {
 
     } catch (error) {
       console.error('Error submitting form:', error);
+      alert('Error adding project');
+
       // Handle error here, set an error message on website
     }
   };
 
-  const handleImageChange = (event: {
-    target: any; preventDefault: () => void; 
-}) => {
+  const handleImageChange = (event: {target: any; preventDefault: () => void; }) => {
     event.preventDefault();
     setImage(event.target.files[0]);
   };
 
+// Functions and variable to handle Project deletion ---------------------------------------------------------
   const [delTitle, setDelTitle] = useState('');
-
   const handleDelete = async (event: { preventDefault: () => void; }) => {
     event.preventDefault();
     const formData = new FormData();
@@ -70,6 +73,9 @@ export function AdminManagerPage() {
         console.log('Deleted project with name: ' + formData);
       });
 
+      alert('Project deleted successfully!');
+
+
       // Clear form:
       /*
       setDelTitle('');
@@ -77,13 +83,46 @@ export function AdminManagerPage() {
       
     } catch (error) {
       console.error('Error submitting form:', error);
+      alert('Project delete failed');
+
     }
   };
 
-  
+// Functions and variables to handle CV upload --------------------------------------------------------------
+  const [selectedCVFile, setSelectedCVFile] = useState(null);
+
+  const handleFileChange = (event: {target: any; preventDefault: () => void; }) => {
+    event.preventDefault();
+    setSelectedCVFile(event.target.files[0]);
+  };
+
+  const handleCVSubmit = async (event: { preventDefault: () => void; }) => {
+    event.preventDefault();
+    if (!selectedCVFile) {
+      alert('Please select a file first!');
+      return;
+    }
+    const formData = new FormData();
+    formData.append('cv', selectedCVFile);
+
+    try {
+      const response = await axios.put('http://localhost:8080/api/cv', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      console.log('File uploaded successfully', response.data);
+      alert('CV uploaded successfully!');
+    } catch (error) {
+      console.error('Error uploading file', error);
+      alert('Error uploading CV');
+    }
+  };
 
   return (
     <Container>
+
+      {/* Form to add project */}
       <Form onSubmit={handleSubmit}>
         <Form.Group className="mb-3" controlId="formBasicTitle">
           <Form.Label>Title</Form.Label>
@@ -117,8 +156,8 @@ export function AdminManagerPage() {
         </Form.Group>
 
         <Form.Group controlId="formFile" className="mb-3">
-          <Form.Label>Project Image of type .PNG (optional)</Form.Label>
-          <Form.Control type="file" onChange={handleImageChange} />
+          <Form.Label>Project Image (optional)</Form.Label>
+          <Form.Control type="file" accept=".png" onChange={handleImageChange} />
         </Form.Group>
 
         <Button variant="primary" type="submit" id="CV-button">
@@ -126,14 +165,19 @@ export function AdminManagerPage() {
         </Button>
       </Form>
 
+      <br></br>
+      <br></br>
+
+      {/* Form to delete project */}
+
       <Form onSubmit={handleDelete}>
         <Form.Group className="mb-3" controlId ="formDeleteTitle">
-        <Form.Label>Title of project</Form.Label>
+        <Form.Label>Delete Project</Form.Label>
         <Form.Control
           type="text"
-          placeholder="Enter project to delete"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          placeholder="Enter title of project to delete"
+          value={delTitle}
+          onChange={(e) => setDelTitle(e.target.value)}
           />
         </Form.Group>
 
@@ -141,6 +185,23 @@ export function AdminManagerPage() {
           Submit
         </Button>
       </Form>
+
+      <br></br>
+
+      {/* Form to upload CV*/}
+
+      <Form onSubmit={handleCVSubmit}>
+        <Form.Group controlId="formFile" className="mb-3">
+          <Form.Label>Select CV file (PDF only)</Form.Label>
+          <Form.Control type="file" accept=".pdf" onChange={handleFileChange} />
+        </Form.Group>
+        <Button variant="primary" type="submit">
+          Upload CV
+        </Button>
+      </Form>
+
+      
+
     </Container>
   );
   }

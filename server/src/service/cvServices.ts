@@ -1,34 +1,73 @@
+import { MongoClient } from "mongodb";
 import { CV } from "../model/cv";
 
 export class CVServices {
-    private cv : CV | undefined; //Create default CV here, dunno how so I put 0
+    private cv!: CV | null; //Create default CV here, dunno how so I put 0
+    mongoURI = 'mongodb+srv://portfoliowap:HackerCatNos@portfolio.zyejove.mongodb.net/?retryWrites=true&w=majority&appName=Portfolio';
 
-    async getCV(): Promise<CV> {
-        return JSON.parse(JSON.stringify(1)); // Replace this with code to get CV from database,
+    async addCV(cvData: CV) {
+        const client = new MongoClient(this.mongoURI);
+        try {
+            await client.connect(); 
+            const db = client.db('britt-marie-wap');
+            const collection = db.collection('cv');
+            const result = await collection.insertOne(cvData);
+            if (result.acknowledged) {
+                const insertedId = result.insertedId;
+
+                return { acknowledged: true, insertedId: insertedId };
+              } else {
+                throw new Error('CV insertion was not acknowledged');
+              }
+        }
+        catch (e) {
+            console.error('Error connecting to MongoDB:', e);
+        }
+        finally {
+            await client.close();
+        }
     }
 
-    async addCV(cvString: String) {
-
-        const cv: CV = {
-            serialPdf: cvString 
-          };
-
-        const cool_cv: CV = {
-            serialPdf: cvString,
+    async replaceCV(cvData: CV) {
+        const client = new MongoClient(this.mongoURI);
+        try {
+            await client.connect();
+            const db = client.db('britt-marie-wap');
+            const collection = db.collection('cv');
+    
+            await collection.deleteMany({});
+    
+            const result = await collection.insertOne(cvData);
+            if (result.acknowledged) {
+                const insertedId = result.insertedId;
+                return { acknowledged: true, insertedId: insertedId };
+            } else {
+                throw new Error('CV replacement was not acknowledged');
+            }
+        } catch (e) {
+            console.error('Error connecting to MongoDB:', e);
+        } finally {
+            await client.close();
         }
-        this.cv = cool_cv;
-        //Add to database here
     }
 
-    async removeCV(cv: CV): Promise<CV | undefined> {
-        if (this.cv === undefined) {
-            return undefined;
+    async getCV(): Promise<CV | null> {
+        const client = new MongoClient(this.mongoURI);
+        try {
+            await client.connect();
+            const db = client.db('britt-marie-wap');
+            const collection = db.collection<CV>('cv');
+    
+            const cv: CV | null = await collection.findOne({});
+            this.cv = cv;
+    
+            return cv;
+        } catch (e) {
+            console.error('Error connecting to MongoDB:', e);
+        } finally {
+            await client.close();
         }
-        const currentCV = JSON.parse(JSON.stringify(this.cv));
-        this.cv = undefined;
-
-        //Add code to remove CV from Database
-        return { serialPdf: currentCV.serialPdf };
+        return this.cv
     }
 }
 export const cvService: CVServices = new CVServices();

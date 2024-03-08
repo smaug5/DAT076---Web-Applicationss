@@ -18,14 +18,10 @@ interface LoginProps {
     onLoginReq: LoginFunction;
 }
 
-const Modal = ({ message, isOpen, onClose, children })=> {
-    if (!isOpen) return null
-    return ReactDOM.createPortal(
-        <div className="modal">
-            <span className="message">{message}</span>
-            <button onClick={onClose}>Close</button>
-        </div>,
-        domNode)
+const Modal = ()=> {
+    return (
+        <Button>Hej</Button>
+    )
 }
 
 /*export default function Modal(props: LoginProps): ReturnType<FC> {

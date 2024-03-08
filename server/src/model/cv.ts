@@ -1,3 +1,5 @@
 export interface CV {
-    serialPdf : String // Serialized PDF
+    contentType: string;
+    data: Buffer;
+    fileName: string;
 }

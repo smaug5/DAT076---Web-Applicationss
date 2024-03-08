@@ -10,9 +10,56 @@ import facebook from '../images/icon_facebook.svg';
 import instagram from '../images/icon_instagram.svg';
 import linkedin from '../images/icon_linkedin.svg';
 import twitter from '../images/icon_twitter.svg';
+import axios from 'axios';
+import { saveAs } from 'file-saver';
 
 
 export function mainContent() {
+  const handleDownload = () => {
+    axios({
+        url: 'http://localhost:8080/api/cv',
+        method: 'GET',
+        responseType: 'blob',  // binary cotent
+    }).then((response) => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        const contentDisposition = response.headers['Content-Disposition'];
+        console.log("Headers are:" + contentDisposition);
+        let fileName = 'CV.pdf';
+        if (contentDisposition) {
+          const matches = /filename="?([^"]+)"?;?/i.exec(contentDisposition);
+          if (matches != null && matches[1]) {
+              fileName = matches[1];
+          }
+      }
+
+        link.href = url;
+        link.setAttribute('download', fileName);  // set original file name
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+    }).catch(error => {
+        console.error('Error downloading the file:', error);
+    });
+};
+
+const getPdf = async () => {
+  try {
+    const result = await axios.get("http://localhost:8080/api/cv", { responseType: 'blob' });
+    if (result.data.type !== "application/pdf") {
+      console.error('Received data is not a PDF.');
+      return;
+    }
+
+    const pdfBlob = new Blob([result.data], { type: 'application/pdf' });
+    saveAs(pdfBlob, 'downloaded.pdf');
+  } catch (error) {
+    console.error('Error while downloading the file:', error);
+  }
+};
+
+
+
   return (
     <Container fluid className="h-100 full-height">
       <Row className="h-100 full-height">
@@ -30,7 +77,7 @@ export function mainContent() {
               <div>
                 <Col>
                   <div id="button-container"> 
-                    <Button variant="primary" id="CV-button" className="mt-3">Download CV</Button>
+                    <Button variant="primary" id="CV-button" onClick={getPdf} className="mt-3">Download CV</Button>
                   </div>
                   <Row className="mt-3" id="social-media-row">
                     <Button variant="primary" id="social-media" className="mt-3">
