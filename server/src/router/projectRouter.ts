@@ -2,7 +2,6 @@ import express, { Request, Response } from "express";
 import { project } from "../model/project";
 import { projectServices, projectService } from "../service/projectService";
 import multer from "multer";
-import { title } from "process";
 
 
 export const projectRouter = express.Router();
@@ -60,8 +59,8 @@ try {
     }
  
     const newProject: project = {
-        title: tit,
-        description: desc,
+        title: title,
+        description: description,
         image: imageData,
         url: url
     }
@@ -74,23 +73,3 @@ try {
     res.status(500).json({ message: 'Failed to add project' });
 }
 });
-
-projectRouter.delete('/:title', async (
-    req: Request<{title: string}>,
-    res: Response
-) => {
-    try {
-        const title : String = req.params.title;
-
-        const respons = await projectServices.removeProject(title);
-        console.log(respons);
-        if (respons?.success)
-            res.status(200);
-        else
-            res.status(404).json({ message: 'Project not found' });
-    } catch (error) {
-        console.error('Error removing project', error);
-        res.status(500).json({ message: 'Failed to remove project' });
-    }
-}
-);

@@ -27,10 +27,6 @@ const projectSchema : Schema = new Schema( {
         unique : false
     }
 
-    collection : {
-        
-    }
-
 });
 
 export const projectModel = conn.model<project>("Project", projectSchema);
