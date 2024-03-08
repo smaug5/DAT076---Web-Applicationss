@@ -12,6 +12,7 @@ export function AdminManagerPage() {
   const [url, setUrl] = useState('');
   const [description, setDescription] = useState('');
   const [image, setImage] = useState(null);
+  const [delTitle, setDelTitle] = useState('');
 
   const handleSubmit = async (event: { preventDefault: () => void; }) => {
     event.preventDefault();
@@ -56,20 +57,20 @@ export function AdminManagerPage() {
     setImage(event.target.files[0]);
   };
 
-  const [delTitle, setDelTitle] = useState('');
 
   const handleDelete = async (event: { preventDefault: () => void; }) => {
+    console.log("Entered handleDelete()")
     event.preventDefault();
     const formData = new FormData();
     formData.append('title', delTitle);
     console.log('Deleting project' + delTitle);
 
     try {
-      const response = await axios.delete('http://localhost:8080/api/project')
+      const response = await axios.delete('http://localhost:8080/api/project/' + delTitle)
       .then(response => {
         console.log('Deleted project with name: ' + formData);
       });
-
+      console.log(response);
       // Clear form:
       /*
       setDelTitle('');
@@ -132,8 +133,8 @@ export function AdminManagerPage() {
         <Form.Control
           type="text"
           placeholder="Enter project to delete"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          value={delTitle}
+          onChange={(e) => setDelTitle(e.target.value)}
           />
         </Form.Group>
 
