@@ -1,27 +1,30 @@
-import express, { Request, Response } from "express";
-import { adminwaplogin } from "../service/adminService";
+import express, { Request, Router } from "express";
+import { adminService, adminwaplogin } from "../service/adminService";
 import { Session } from "inspector";
 import { IAdminService } from "../service/admin.interface";
+import { login } from "../model/login";
 
-export const adminRouter = express.Router();
+export const adminRouter : Router = express.Router();
 //add in start.ts
 
-//const adminService : IAdminService = new AdminService(); 
+const admService = new adminService(); 
 
 interface LoginRequest extends Request {
-    status: any;        //should be something else i believe
     params : {},
     session: any,
     body : { password : string }
 }
 
-adminRouter.post("/login", async (req: LoginRequest, res) => {
+adminRouter.post("/login", async (
+    req: LoginRequest, 
+    res
+    ) => {
     try {
         if (typeof(req.body.password) !== "string" || req.body.password === "") {
             req.status(400).send("Invalid password")
         }
 
-        if (! await adminService.find(req.body.password)) {
+        if (! await admService.verifyPassword(req.body.password)) {
             res.status(401).send("Password not found");
         }
 
