@@ -11,33 +11,25 @@ const request = SuperTest.default(app);
 
 // Creates two projects and checks that those confirm that they're added. Then looks for one of the projects and checks that the correct one got returned.
 test("End-to-end test", async () => {
-  //const id = 123;
-  //const id2 = 234;
+  const id = 123;
+  const id2 = 234;
   const title = "First project";
   const title2 = "Second project";
   const desc = "FIRST!!1!";
   const desc2 = "SECOND";
-  const url = "http:/google.com";
-  const url2 = "http:/google.se";
 
-  const newProject: project = {
-    title: title,
-    description: desc,
-    url: url,
-    image: null
-}
-
-const newProject2: project = {
-  title: title2,
-  description: desc2,
-  url: url2,
-  image: null
-}
-
-  const res1 = await request.put("/api/project").send(newProject);
+  const res1 = await request.put("/api/project").send({
+    "id": id,
+    "title": title,
+    "description": desc
+  });
     expect(res1.statusCode).toEqual(200);
 
-  const res1_2 = await request.put("/api/project").send(newProject2)
+  const res1_2 = await request.put("/api/project").send({
+    "id" : id2,
+    "title" : title2,
+    "description" : desc2
+  })
    expect(res1_2.statusCode).toEqual(200);
    
    const res2 = await request.get("/api/project");
@@ -48,4 +40,4 @@ const newProject2: project = {
   const res3 = await request.get("/api/project/"+title2);
   expect(res3.body.title).toContain(title2);
 
-},50000);
+});
