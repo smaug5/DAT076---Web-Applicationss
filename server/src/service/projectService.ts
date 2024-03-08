@@ -1,7 +1,8 @@
 import { title } from "process";
 import { project } from "../model/project";
 import { Document, MongoClient, OptionalId } from 'mongodb';
-import { conn } from "../../../server/db/conn";
+//import { conn } from "../../../server/db/conn";
+import { projectModel } from "../../db/project.db"
 
 export class projectService {
    
@@ -93,12 +94,24 @@ export class projectService {
           await client.connect();
           const db = client.db('britt-marie-wap');
           await client.db("admin").command({ ping: 1 });
-          console.log("Pinged your deployment for remodeProject(). Your successfully connected to MongoDB!");
+          console.log("Pinged your deployment for removeProject(). Your successfully connected to MongoDB!");
 
           const collection = db.collection('projects');
+          //const foundProject = this.getProject(title);
           
-          await collection.deleteOne({ title: title });
+          /* const result = await collection.findOneAndDelete({ "title": title });
+          console.log(result)
+          this.projects = this.projects.filter(x => x.title !== title);
           await client.close();
+          console.log('Finished removeProject') */
+          const deletedProject = await collection.findOneAndDelete({ "title": title });
+          this.projects = this.projects.filter(x => x.title !== title);
+
+          if (!deletedProject) {
+            console.log('Project not found');
+            return {success: false}
+          }
+          //console.log('Project deleted successfully!');
           
         } catch (error) {
           console.error('Error removing project from the database:', error);
