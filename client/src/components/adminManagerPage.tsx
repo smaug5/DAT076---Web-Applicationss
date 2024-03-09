@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import { Form, Button, Container } from 'react-bootstrap';
+import { Form, Button, Container, FormLabel, FormControl } from 'react-bootstrap';
 import '../App.css';
 import '../../src/css/main.css';
 import '../../src/css/animations.css';
@@ -65,21 +65,22 @@ export function AdminManagerPage() {
     console.log('Deleting project' + delTitle);
 
     try {
-      const response = await axios.delete('http://localhost:8080/api/project${formData}')
+      const response = await axios.delete('http://localhost:8080/api/project')
       .then(response => {
-        console.log('Deleted project with name ${formData}');
+        console.log('Deleted project with name: ' + formData);
       });
 
       // Clear form:
       /*
       setDelTitle('');
       */
+      
     } catch (error) {
       console.error('Error submitting form:', error);
     }
-  
+  };
 
-};
+  
 
   return (
     <Container>
@@ -116,7 +117,7 @@ export function AdminManagerPage() {
         </Form.Group>
 
         <Form.Group controlId="formFile" className="mb-3">
-          <Form.Label>Project Image (optional)</Form.Label>
+          <Form.Label>Project Image of type .PNG (optional)</Form.Label>
           <Form.Control type="file" onChange={handleImageChange} />
         </Form.Group>
 
@@ -124,14 +125,22 @@ export function AdminManagerPage() {
           Submit
         </Button>
       </Form>
-    <Form onSubmit={handleDelete}>
-    </Form>
 
-  
-      <Button>
-        Login
-      </Button>
+      <Form onSubmit={handleDelete}>
+        <Form.Group className="mb-3" controlId ="formDeleteTitle">
+        <Form.Label>Title of project</Form.Label>
+        <Form.Control
+          type="text"
+          placeholder="Enter project to delete"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          />
+        </Form.Group>
 
+        <Button variant="primary" type="submit" id="CV-button">
+          Submit
+        </Button>
+      </Form>
     </Container>
 
   );

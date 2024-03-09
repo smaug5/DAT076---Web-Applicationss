@@ -19,7 +19,7 @@ test("If a project is removed, it should not be in the list of projects",
         const desc = "This test is supposed to be removed";
         const projectServices = new projectService();
         await projectServices.addProject(id, title, desc);
-        await projectServices.removeProject(title); // Crashes due to inf loop
+        await projectServices.removeProject(title);
         const testProject = await projectServices.getAllProjects();
         expect(testProject.every((testProject) => testProject.title !== title)).toBeTruthy();
 });
