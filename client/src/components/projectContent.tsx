@@ -17,6 +17,8 @@ export function ProjectContent() {
 
   const handleProjectList = (newProjectList: project[]) => {
       setProjectList(newProjectList);
+      //Show first project in the list
+      console.log('First project:' + newProjectList[0].image);
   };
 
   return (

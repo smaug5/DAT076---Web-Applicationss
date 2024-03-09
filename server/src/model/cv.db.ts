@@ -6,4 +6,5 @@ const cvSchema = new mongoose.Schema(
 
 );
 
-mongoose.model('cv', cvSchema);
+const CV = mongoose.model('cv', cvSchema);
+

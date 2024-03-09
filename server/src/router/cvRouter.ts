@@ -2,15 +2,35 @@
 
 import express, {Express, Request, Response } from "express";
 import { CVServices, cvService } from "../service/cvServices";
-import { CV } from "../model/cv";
 import { app } from "../start";
 import e from "express";
 import {uri} from "../../db/conn";
 import * as fs from 'fs';
-import { Readable } from "stream";
+import stream, { Readable } from "stream";
+import { CV } from "../model/cv";
+import multer from "multer";
+
 
 
 export const cvRouter = express.Router();
+
+
+
+
+
+/*
+const storage = multer.diskStorage({
+  destination: function (req: any, file: any, cb: any) {
+    cb(null, "./files");
+  },
+  filename: function (req: any, file: any, cb: any) {
+    const uniqueSuffix = Date.now();
+    cb(null, uniqueSuffix + file.originalname);
+  },
+});*/
+//const upload = multer({ storage: storage });
+require("../model/cv.db");
+
 
 mongoose
   .connect(uri, {
@@ -23,87 +43,148 @@ mongoose
 
 
 let connection = mongoose.connection;
+const cvSchema = mongoose.model('cv');
 
 
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
+
+
+cvRouter.get("/", async (
+    req: Request,
+    res: Response<CV | null>
+) => {
+    try {
+        const cvImage: CV | null = await cvService.getCV();
+
+        if (cvImage !== null) {
+            cvImage.fileName = `data:image/png;base64,${cvImage.fileName}`;
+        }
+        console.log("CV image from the database:")
+    
+        res.status(200).send(cvImage);
+    } catch (e: any) {
+        res.status(500).send(e.message);
+    }
+});
+
+
+cvRouter.put('/', upload.single('image'), async (req, res) => {
+try {
+    console.log(req.body);
+
+    const { image } = req.body;
+    let imageData = null;
+
+    if (req.file) {
+        imageData = req.file.buffer.toString('base64');
+    }
+
+    await cvSchema.create({ pdf: imageData });
+    
+    res.status(201).json({ message: 'CV added successfully', id: imageData });
+} catch (error) {
+    console.error('Error submitting CV:', error);
+    res.status(500).json({ message: 'Failed to add CV' });
+}
+});
+
+//------------------------------------- Attempt 6 -------------------------------------
+/*
 const multer = require('multer');
+const CV = require('./models/cv.db');
 
 const Grid = require("gridfs-stream");
 const config = require("config");
 
-const storage = multer.diskStorage({
-  destination: function (req: any, file: any, cb: any) {
-    cb(null, "./files");
-  },
-  filename: function (req: any, file: any, cb: any) {
-    const uniqueSuffix = Date.now();
-    cb(null, uniqueSuffix + file.originalname);
-  },
-});
-require("../model/cv.db");
+const File = require("./models/file2");
 const cvSchema = mongoose.model('cv');
-const upload = multer({ storage: storage });
+connection.on("open", () => {
+  console.log("connection established successfully");
+  let bucket = new mongoose.mongo.GridFSBucket(connection.db, {
+    bucketName: 'cvFiles'
+  });
 
+  const storage = multer.memoryStorage();
+  const upload = multer({ storage });
 
-connection.on("open", ()=> {
-  console.log("connection established successfully")
-  let bucket = new mongoose.mongo.GridFSBucket(mongoose.connection.db)
+  cvRouter.put("/upload", upload.single("file"), async (req, res) => {
+    let { file } = req;
+    if (!file) {
+      return res.status(400).send('No file uploaded.');
+    }
 
-  const  storage =  multer.memoryStorage()
-const upload  =   multer({storage})
+    console.log("Entered upload route")
 
-  app.post("/upload",upload.single("file"), async (req, res)=> {
-      let {file} =  req
-      console.log(file)
+    console.log(file);
 
-      let {fieldname, originalname, mimetype, buffer} = file
+    let { originalname, mimetype, buffer } = file;
 
-      let newFile = new File({
-            filename: file.originalname,
-            contentType: mimetype,
-            length: buffer.length,
-      })
+    try {
+      const uploadStream = bucket.openUploadStream(originalname, {
+        contentType: mimetype
+      });
 
+      const readStream = new stream.Readable();
+      readStream.push(buffer);
+      readStream.push(null);
+      readStream.pipe(uploadStream);
 
-      try{
-          let uploadStream = bucket.openUploadStream(fieldname)
-          let readBuffer = new Readable()
-          readBuffer.push(buffer)
-          readBuffer.push(null)
-  
-  
-          const isUploaded = await new Promise((resolve, reject)=>{
-              readBuffer.pipe(uploadStream)
-              .on("finish", resolve("successfull"))
-              .on("error" , reject("error occured while creating stream") )
-          })
-  
-          
-          newFile.id = uploadStream.id
-         let savedFile =  await newFile.save()
-         if(!savedFile){
-          return res.status(404).send("error occured while saving our work")
-         }
-         return res.send({file: savedFile, message: "file uploaded successfully"})
+      const isUploaded = new Promise((resolve, reject) => {
+        uploadStream.on('finish', () => resolve(uploadStream.id.toString()));
+        uploadStream.on('error', reject);
+      });
+
+      const fileId = await isUploaded;
+      let newCV = new CV({
+        pdf: fileId // Storing the file ID from GridFS, not the file name
+      });
+
+      let savedCV = await newCV.save();
+      if (!savedCV) {
+        return res.status(500).send("Error occurred while saving the file metadata");
       }
-      catch(err){
-res.send("error uploading file")
+      return res.send({ file: savedCV, message: "File uploaded successfully" });
+    } catch (err) {
+      console.error(err);
+      res.status(500).send("Error uploading file");
+    }
+  });
+
+  // Ensure your GET endpoint and other logic are correctly using the bucket as well
+  cvRouter.get("/image", async (req, res) => {
+    try {
+      // Assuming there's only one CV document in the collection
+      const cv = await CV.findOne();
+      if (!cv || !cv.pdf) {
+        return res.status(404).send('No PDF found.');
       }
-
   
-  })
+      const fileId = cv.pdf; // Retrieve the fileId stored in the CV document
+      let downloadStream = bucket.openDownloadStream(new mongoose.Types.ObjectId(fileId));
+  
+      downloadStream.on("file", (file:any) => {
+        res.set("Content-Type", file.contentType);
+      });
+  
+      downloadStream.on("error", (error:any) => {
+        res.status(404).send("PDF not found");
+      });
+  
+      downloadStream.pipe(res);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Error retrieving PDF");
+    }
+  });
+  
+});
+*/
+//------------------------------------- End Attempt 6 -------------------------------------
 
-  app.get("/image/:fileId", (req, res)=>{
-      let {fileId} = req.params
 
-      let downloadStream = bucket.openDownloadStream( new mongoose.Types.ObjectId(fileId))
 
-      downloadStream.on("file", (file:any)=>{
-          res.set("Content-Type", file.contentType)
-      })
-
-      downloadStream.pipe(res)
-  })
-})
 
 /* Latest
 cvRouter.put("/", upload.single("cv"), async (req, res) => {

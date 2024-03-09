@@ -14,9 +14,11 @@ import axios from 'axios';
 import { saveAs } from 'file-saver';
 import { pdfjs } from "react-pdf";
 import PdfComp from "../components/pdfComp";
+import {CV} from '../../../server/src/model/cv';
 
 
-export function mainContent() {
+export function MainContent() {
+  const [cvImage, setCVImage] = useState( null as CV | null);
   const handleDownload = () => {
     axios({
         url: 'http://localhost:8080/api/cv',
@@ -43,31 +45,32 @@ export function mainContent() {
     }).catch(error => {
         console.error('Error downloading the file:', error);
     });
-};
-
-
-  useEffect(() => {
-    getPdf();
-  }, []);
-
-  const [allImage, setAllImage] = useState(null);
-  const [pdfFile, setPdfFile] = useState(null);
-
-  const getPdf = async () => {
-    try {
-      const result = await axios.get("http://localhost:8080/api/cv");
-      setAllImage(result.data.data);
-
-    } catch (error) {
-      console.error('Error while downloading the file:', error);
-    }
   };
 
-  pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-    "pdfjs-dist/build/pdf.worker.min.js",
-    import.meta.url
-  ).toString();
+  const handleCVImage = (cvImage: CV | null) => {
+    setCVImage(cvImage);
+   //console.log('CV image set to:', cvImage);
+  }
 
+  useEffect(() => {
+    updateCV(handleCVImage);
+  });
+
+  
+  const getPdf = async () => {
+    updateCV(handleCVImage);
+  }
+
+ /* const getPdf = async () => {
+    try {
+      const result = await axios.get<CV | null>("http://localhost:8080/api/cv");
+      setCVImage(result.data);
+      console.log('CV:', result.data);
+    } 
+    catch (error) {
+      console.error('Error while downloading the cv:', error);
+    }
+  }; */
 
 
   return (
@@ -110,6 +113,7 @@ export function mainContent() {
           
         </Col>
         <Col xs={6} className="d-flex justify-content-center align-items-center full-height">
+          <Image src={String(cvImage?.fileName) || ''} alt="cv" />
           <Image src={itGirlImage} alt="Logo" className="bit-girl oval-image centered-image" />
         </Col>
       </Row>
@@ -117,6 +121,20 @@ export function mainContent() {
   );
 }
 
+export async function updateCV(handleCVImage: (cvImage: CV | null) => void){
+  try {
+    const result = await axios.get<CV | null>("http://localhost:8080/api/cv");
+    handleCVImage(result.data);
+   // console.log('CV:', result.data);
+   console.log('CV filename:', result.data?.contentType)
+   //Log type of data:
+   console.log('Type of data:', typeof result.data);
+  } 
+  catch (error) {
+    console.error('Error while downloading the cv:', error);
+  }
+};
 
 
-export default mainContent;
+
+export default MainContent;

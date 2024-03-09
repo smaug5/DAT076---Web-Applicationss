@@ -91,9 +91,6 @@ export function AdminManagerPage() {
 // Functions and variables to handle CV upload --------------------------------------------------------------
   const [selectedCVFile, setSelectedCVFile] = useState(null);
 
-  useEffect(() => {
-    getPdf();
-  }, []);
   
   const handleFileChange = (event: {target: any; preventDefault: () => void; }) => {
     event.preventDefault();
@@ -197,14 +194,12 @@ export function AdminManagerPage() {
       <Form onSubmit={handleCVSubmit}>
         <Form.Group controlId="formFile" className="mb-3">
           <Form.Label>Select CV file (PDF only)</Form.Label>
-          <Form.Control type="file" accept=".pdf" onChange={handleFileChange} />
+          <Form.Control type="file" accept=".png" onChange={handleFileChange} />
         </Form.Group>
         <Button variant="primary" type="submit">
           Upload CV
         </Button>
       </Form>
-
-      
 
     </Container>
   );

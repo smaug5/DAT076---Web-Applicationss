@@ -56,18 +56,21 @@ export class CVServices {
         try {
             await client.connect();
             const db = client.db('britt-marie-wap');
-            const collection = db.collection<CV>('cv');
-    
-            const cv: CV | null = await collection.findOne({});
-            this.cv = cv;
-    
-            return cv;
+            const collection = db.collection('cv');
+
+            const cv = await collection.findOne({});
+
+            // Turn cv into CV object
+            this.cv = cv ? new CV(cv.fileName, cv.contentType, cv.data) : null;
+
+            return JSON.parse(JSON.stringify(this.cv));
+
         } catch (e) {
             console.error('Error connecting to MongoDB:', e);
         } finally {
             await client.close();
         }
-        return this.cv
+        return null
     }
 }
 export const cvService: CVServices = new CVServices();

@@ -23,10 +23,10 @@ export class projectService {
         const cursor = collection.find();
         const results = await cursor.toArray();
 
-        console.log("Projects from the database:")
-        console.log(results);        
+        //console.log("Projects from the database:")
+        //console.log(results);        
         console.log("Number of projects from the database:")
-        console.log(results.length);
+        //console.log(results.length);
 
         // Turn results into project[] objects
         this.projects = results.map((project: any) => {
@@ -89,7 +89,7 @@ export class projectService {
           await client.connect();
           const db = client.db('britt-marie-wap');
           await client.db("admin").command({ ping: 1 });
-          console.log("Pinged your deployment for remodeProject(). Your successfully connected to MongoDB!");
+          console.log("Pinged your deployment for removeProject(). Your successfully connected to MongoDB!");
 
           const collection = db.collection('projects');
           

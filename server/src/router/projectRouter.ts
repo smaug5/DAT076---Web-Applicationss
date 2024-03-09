@@ -45,11 +45,11 @@ projectRouter.get("/:title", async (
 
 projectRouter.put('/', upload.single('image'), async (req, res) => {
 try {
-    console.log(req.body);
+    //console.log(req.body);
     const tit : string = req.body.title;
-    console.log(`Title: ${tit}`)
+    //console.log(`Title: ${tit}`)
     const desc : string = req.body.description;
-    console.log(`Description: ${desc}`)
+    //console.log(`Description: ${desc}`)
 
     const { title, url, description } = req.body;
     let imageData = null;
