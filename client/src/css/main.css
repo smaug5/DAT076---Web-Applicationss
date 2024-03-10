@@ -20,7 +20,7 @@ body {
 /* ----------------------- Layout ----------------------- */
 
 .content-container {
-  padding-top: 65px;
+  padding-top: 60px;
 }
 
 .full-height {
@@ -176,8 +176,9 @@ body {
 
 
 .navbar-custom {
-	background-color: #1586AA;
+  background-color: #1586AA;
   position: fixed !important; 
+  height: 60px;
   top: 0;
   left: 0;
   right: 0;

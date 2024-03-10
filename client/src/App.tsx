@@ -14,6 +14,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { Routes, Route } from 'react-router-dom';
 import ProjectContent from './components/projectContent';
 import AdminManagerPage from './components/adminManagerPage';
+import { get } from 'http';
 
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
     <div className="full-height h-100" style={{ overflow: 'auto' }} >
       <BrowserRouter>
         <Navbar onLanguageChange={handleLanguageChange} />
+        <div className="content-container full-height h-100">
         <Routes>
           <Route path="/">
             <Route index element={< HomeContent />} />
@@ -48,6 +50,7 @@ function App() {
           </Route>
 
         </Routes>
+        </div>
 
       </BrowserRouter>
     </div>

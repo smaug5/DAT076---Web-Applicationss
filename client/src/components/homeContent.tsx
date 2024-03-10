@@ -39,7 +39,7 @@ export function MainContent() {
       }
 
         link.href = url;
-        link.setAttribute('download', fileName);  // set original file name
+        link.setAttribute('download', fileName); 
         document.body.appendChild(link);
         link.click();
         link.remove();
@@ -50,7 +50,6 @@ export function MainContent() {
 
   const handleCVImage = (cvImage: CV | null) => {
     setCVImage(cvImage);
-   //console.log('CV image set to:', cvImage);
   }
 
   useEffect(() => {
@@ -64,18 +63,6 @@ export function MainContent() {
       updateCV(handleCVImage);
     }
   }
-
- /* const getPdf = async () => {
-    try {
-      const result = await axios.get<CV | null>("http://localhost:8080/api/cv");
-      setCVImage(result.data);
-      console.log('CV:', result.data);
-    } 
-    catch (error) {
-      console.error('Error while downloading the cv:', error);
-    }
-  }; */
-
 
   return (
     <Container fluid className="h-100 full-height">
