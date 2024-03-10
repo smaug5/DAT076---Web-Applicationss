@@ -2,7 +2,7 @@ import { title } from "process";
 import { project } from "../model/project";
 import { Document, MongoClient, OptionalId } from 'mongodb';
 
-export class projectService {
+export class projectService{
    
     // private project : id;
     private projects: project[] = [] // Add so this is equal to all projects in the database.

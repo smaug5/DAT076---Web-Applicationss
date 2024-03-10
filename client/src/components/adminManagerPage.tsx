@@ -32,20 +32,14 @@ export function AdminManagerPage() {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
+        withCredentials: true, // Include credentials (cookies) in the request
       });
       console.log('Put request successfully sent and received! Data received: \n');
       console.log(response.data);
-      // Clear form here:
-      /*
-      setTitle('');
-      setUrl('');
-      setDescription('');
-      setImage(null);*/
-
+      
 
     } catch (error) {
       console.error('Error submitting form:', error);
-      // Handle error here, set an error message on website
     }
   };
 
@@ -65,7 +59,9 @@ export function AdminManagerPage() {
     console.log('Deleting project' + delTitle);
 
     try {
-      const response = await axios.delete('http://localhost:8080/api/project')
+      const response = await axios.delete('http://localhost:8080/api/project', {
+        withCredentials: true,
+      })
       .then(response => {
         console.log('Deleted project with name: ' + formData);
       });
@@ -132,7 +128,7 @@ export function AdminManagerPage() {
         <Form.Control
           type="text"
           placeholder="Enter project to delete"
-          value={title}
+          value={delTitle}
           onChange={(e) => setTitle(e.target.value)}
           />
         </Form.Group>

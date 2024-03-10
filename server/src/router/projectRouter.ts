@@ -2,7 +2,7 @@ import express, { Request, Response } from "express";
 import { project } from "../model/project";
 import { projectServices, projectService } from "../service/projectService";
 import multer from "multer";
-
+// import '../types/session'
 
 export const projectRouter = express.Router();
 
@@ -45,6 +45,13 @@ projectRouter.get("/:title", async (
 
 projectRouter.put('/', upload.single('image'), async (req, res) => {
 try {
+    console.log(req.session.user)
+    console.log(req.sessionID)
+    if (!req.session.user) {
+        console.log("Unauthorized. Please log in.")
+        return res.status(401).send("Unauthorized. Please log in.");
+    }
+    console.log("User is logged in", req.session.user);
     console.log(req.body);
     const tit : string = req.body.title;
     console.log(`Title: ${tit}`)

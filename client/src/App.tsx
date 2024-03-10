@@ -13,6 +13,8 @@ import { BrowserRouter } from 'react-router-dom';
 import { Routes, Route } from 'react-router-dom';
 import ProjectContent from './components/projectContent';
 import AdminManagerPage from './components/adminManagerPage';
+import LoginContent from './components/loginContent';
+import RegisterPage from './components/registerContent';
 
 
 
@@ -38,6 +40,10 @@ function App() {
             <Route path='projects' element={< ProjectContent /> } />
 
             <Route path='adminManagerPage' element={< AdminManagerPage />} />
+
+            <Route path='login' element={< LoginContent />} />
+
+            <Route path='register' element={< RegisterPage />} />
 
           </Route>
 
