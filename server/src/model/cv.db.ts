@@ -1,10 +1,17 @@
+import {Schema, Model} from "mongoose";
+import {CV} from "../model/cv"
+import {conn} from "../model/conn"
+
 const mongoose = require('mongoose');
 
-const cvSchema = new mongoose.Schema(
-    { pdf: String },
-    { collection: 'cv' }
+const cvSchema: Schema = new mongoose.Schema({ 
+    image: {
+        type: String,
+        required: true,
+        unique: false
+        }
+    },
 
 );
 
-const CV = mongoose.model('cv', cvSchema);
-
+export const cvModel = conn.model<CV>("cv", cvSchema);

@@ -19,6 +19,7 @@ import {CV} from '../../../server/src/model/cv';
 
 export function MainContent() {
   const [cvImage, setCVImage] = useState( null as CV | null);
+  const [cvEnabled, setCVEnabled] = useState(false);
   const handleDownload = () => {
     axios({
         url: 'http://localhost:8080/api/cv',
@@ -57,8 +58,11 @@ export function MainContent() {
   });
 
   
-  const getPdf = async () => {
-    updateCV(handleCVImage);
+  const showCV = async () => {
+    setCVEnabled(!cvEnabled);
+    if (cvImage === null) {
+      updateCV(handleCVImage);
+    }
   }
 
  /* const getPdf = async () => {
@@ -89,10 +93,20 @@ export function MainContent() {
               </div>
               <div>
                 <Col>
-                  <div id="button-container"> 
-                    <Button variant="primary" id="CV-button" onClick={getPdf} className="mt-3">Download CV</Button>
+                  <div id="button-container">
+                    <Button variant="primary" id="CV-button" onClick={showCV}>Show CV</Button>
                   </div>
-                  <Row className="mt-3" id="social-media-row">
+                  { cvEnabled && 
+                  <Col>
+                    <div id="button-container">
+                      <Button variant="primary" id="CV-button" onClick={handleDownload}>Download CV</Button>
+                    </div>
+                    <Row className="mt-3" id="cvImage">
+                      <Image src={String(cvImage?.image)} alt="CV" id="cv-image" />
+                    </Row>
+                  </Col>
+                  }
+                  { !cvEnabled && <Row className="mt-3" id="social-media-row">
                     <Button variant="primary" id="social-media" className="mt-3">
                       <Image src={linkedin} alt="linkedin" id="social-media-icon" />
                     </Button>
@@ -105,7 +119,7 @@ export function MainContent() {
                     <Button variant="primary" id="social-media" className="mt-3">
                       <Image src={twitter} alt="Twitter" id="social-media-icon" />
                     </Button>
-                  </Row>
+                  </Row>}
                 </Col>
               </div>
             </Col>
@@ -113,7 +127,6 @@ export function MainContent() {
           
         </Col>
         <Col xs={6} className="d-flex justify-content-center align-items-center full-height">
-          <Image src={String(cvImage?.fileName) || ''} alt="cv" />
           <Image src={itGirlImage} alt="Logo" className="bit-girl oval-image centered-image" />
         </Col>
       </Row>
@@ -121,14 +134,14 @@ export function MainContent() {
   );
 }
 
-export async function updateCV(handleCVImage: (cvImage: CV | null) => void){
+export async function updateCV(handleCVImage: (cvImage: CV) => void){
   try {
-    const result = await axios.get<CV | null>("http://localhost:8080/api/cv");
+    const result = await axios.get<CV>("http://localhost:8080/api/cv");
     handleCVImage(result.data);
    // console.log('CV:', result.data);
-   console.log('CV filename:', result.data?.contentType)
+   //console.log('CV filename:', result.data.image)
    //Log type of data:
-   console.log('Type of data:', typeof result.data);
+   //console.log('Type of data:', typeof result.data?.image);
   } 
   catch (error) {
     console.error('Error while downloading the cv:', error);

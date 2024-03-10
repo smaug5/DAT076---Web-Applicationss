@@ -15,7 +15,7 @@ const Navbar = ({ onLanguageChange }: { onLanguageChange: (language: string) => 
     };
   
     return (
-      <nav className="navbar navbar-expand-lg navbar-light navbar-custom">
+      <nav className="navbar navbar-expand-lg navbar-light navbar-custom" >
         <div className="container-fluid">
           <div className="collapse navbar-collapse navbar-custom-icon" id="navbarToggle">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0 navbar-custom-icon">

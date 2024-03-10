@@ -104,7 +104,7 @@ export function AdminManagerPage() {
       return;
     }
     const formData = new FormData();
-    formData.append('cv', selectedCVFile);
+    formData.append('image', selectedCVFile);
 
     try {
       const response = await axios.put('http://localhost:8080/api/cv', formData, {
@@ -193,10 +193,10 @@ export function AdminManagerPage() {
 
       <Form onSubmit={handleCVSubmit}>
         <Form.Group controlId="formFile" className="mb-3">
-          <Form.Label>Select CV file (PDF only)</Form.Label>
+          <Form.Label>Select CV file (png only)</Form.Label>
           <Form.Control type="file" accept=".png" onChange={handleFileChange} />
         </Form.Group>
-        <Button variant="primary" type="submit">
+        <Button variant="primary" type="submit" id="CV-button">
           Upload CV
         </Button>
       </Form>

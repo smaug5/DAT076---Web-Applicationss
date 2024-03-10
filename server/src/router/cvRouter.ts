@@ -1,7 +1,6 @@
 // This will handle incoming requests from the browser, which has to do with CVs.
 
 import express, {Express, Request, Response } from "express";
-import { CVServices, cvService } from "../service/cvServices";
 import { app } from "../start";
 import e from "express";
 import {uri} from "../../db/conn";
@@ -9,13 +8,11 @@ import * as fs from 'fs';
 import stream, { Readable } from "stream";
 import { CV } from "../model/cv";
 import multer from "multer";
+import {cvService2, cvServices2} from "../service/cvService2";
 
 
-
+require("../model/cv.db");
 export const cvRouter = express.Router();
-
-
-
 
 
 /*
@@ -29,10 +26,9 @@ const storage = multer.diskStorage({
   },
 });*/
 //const upload = multer({ storage: storage });
-require("../model/cv.db");
 
 
-mongoose
+/* mongoose
   .connect(uri, {
     useNewUrlParser: true,
   })
@@ -42,8 +38,7 @@ mongoose
   .catch((e: any) => console.log(e));
 
 
-let connection = mongoose.connection;
-const cvSchema = mongoose.model('cv');
+let connection = mongoose.connection; */
 
 
 
@@ -53,18 +48,18 @@ const upload = multer({ storage: storage });
 
 cvRouter.get("/", async (
     req: Request,
-    res: Response<CV | null>
+    res: Response<CV>
 ) => {
     try {
-        const cvImage: CV | null = await cvService.getCV();
+        const cvImage: CV = await cvServices2.getCV();
 
-        if (cvImage !== null) {
-            cvImage.fileName = `data:image/png;base64,${cvImage.fileName}`;
-        }
-        console.log("CV image from the database:")
+        cvImage.image = `data:image/png;base64,${cvImage.image}`;
+        
+        //console.log("CV image from the database:" + cvImage.image);
     
         res.status(200).send(cvImage);
     } catch (e: any) {
+        console.log("Error retrieving CV: " + e.message);
         res.status(500).send(e.message);
     }
 });
@@ -72,16 +67,25 @@ cvRouter.get("/", async (
 
 cvRouter.put('/', upload.single('image'), async (req, res) => {
 try {
-    console.log(req.body);
+    //console.log(req.body);
+    console.log("Entered put route")
 
     const { image } = req.body;
-    let imageData = null;
+    let imageData: String;
 
     if (req.file) {
-        imageData = req.file.buffer.toString('base64');
+      imageData = req.file.buffer.toString('base64');
+    }
+    else {
+      throw new Error('No file uploaded.');
     }
 
-    await cvSchema.create({ pdf: imageData });
+      
+    const newCV: CV = {
+      image: imageData
+    };
+
+    await cvServices2.replaceCV(newCV);
     
     res.status(201).json({ message: 'CV added successfully', id: imageData });
 } catch (error) {

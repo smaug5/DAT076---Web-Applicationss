@@ -61,7 +61,7 @@ export class CVServices {
             const cv = await collection.findOne({});
 
             // Turn cv into CV object
-            this.cv = cv ? new CV(cv.fileName, cv.contentType, cv.data) : null;
+            // this.cv = cv ? new CV(cv.fileName, cv.contentType, cv.data) : null;
 
             return JSON.parse(JSON.stringify(this.cv));
 

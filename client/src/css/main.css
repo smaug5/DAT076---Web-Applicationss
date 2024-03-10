@@ -19,6 +19,10 @@ body {
 
 /* ----------------------- Layout ----------------------- */
 
+.content-container {
+  padding-top: 65px;
+}
+
 .full-height {
     min-height: 100%; /* Mitt försök att göra så att Navbar inte ska göra så att sidan pushas ner */
     height: 100%;
@@ -173,6 +177,11 @@ body {
 
 .navbar-custom {
 	background-color: #1586AA;
+  position: fixed !important; 
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
 } 
 
 .material-symbols-outlined {

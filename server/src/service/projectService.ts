@@ -25,7 +25,7 @@ export class projectService {
 
         //console.log("Projects from the database:")
         //console.log(results);        
-        console.log("Number of projects from the database:")
+        //console.log("Number of projects from the database:")
         //console.log(results.length);
 
         // Turn results into project[] objects

@@ -30,7 +30,7 @@ function App() {
   }
 
   return (
-    <div className="full-height h-100">
+    <div className="full-height h-100" style={{ overflow: 'auto' }} >
       <BrowserRouter>
         <Navbar onLanguageChange={handleLanguageChange} />
         <Routes>
