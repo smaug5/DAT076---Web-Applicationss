@@ -38,6 +38,7 @@ export function AdminManagerPage() {
       alert('Project added successfully!');
       console.log('Put request successfully sent and received! Data received: \n');
       console.log(response.data);
+    
       // Clear form here:
       /*
       setTitle('');
@@ -62,20 +63,19 @@ export function AdminManagerPage() {
 // Functions and variable to handle Project deletion ---------------------------------------------------------
   const [delTitle, setDelTitle] = useState('');
   const handleDelete = async (event: { preventDefault: () => void; }) => {
+    console.log("Entered handleDelete()")
     event.preventDefault();
     const formData = new FormData();
     formData.append('title', delTitle);
     console.log('Deleting project' + delTitle);
 
     try {
-      const response = await axios.delete('http://localhost:8080/api/project')
+      const response = await axios.delete('http://localhost:8080/api/project/' + delTitle)
       .then(response => {
         console.log('Deleted project with name: ' + formData);
       });
-
+      console.log(response);
       alert('Project deleted successfully!');
-
-
       // Clear form:
       /*
       setDelTitle('');
@@ -83,8 +83,7 @@ export function AdminManagerPage() {
       
     } catch (error) {
       console.error('Error submitting form:', error);
-      alert('Project delete failed');
-
+      alert('Error deleting project');
     }
   };
 

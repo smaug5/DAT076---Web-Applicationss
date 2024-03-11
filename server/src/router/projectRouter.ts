@@ -72,4 +72,26 @@ try {
     console.error('Error submitting form:', error);
     res.status(500).json({ message: 'Failed to add project' });
 }
+
+projectRouter.delete('/:title', async (
+    req: Request<{title: string}>,
+    res: Response
+) => {
+    try {
+        const title : String = req.params.title;
+        console.log("Title is: " + title)
+
+        const result = await projectServices.removeProject(title);
+
+        if (result?.success)
+            res.status(200);
+        else
+            res.status(404).json({ message: 'Project not found' });
+    } catch (error) {
+        console.error('Error removing project', error);
+        res.status(500).json({ message: 'Failed to remove project' });
+    }
+}
+);
+
 });

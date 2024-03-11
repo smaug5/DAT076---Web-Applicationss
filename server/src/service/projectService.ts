@@ -84,24 +84,36 @@ export class projectService {
       }
 
     async removeProject(title: String) {
-        const client = new MongoClient(this.mongoURI);
-        try {
-          await client.connect();
-          const db = client.db('britt-marie-wap');
-          await client.db("admin").command({ ping: 1 });
-          console.log("Pinged your deployment for removeProject(). Your successfully connected to MongoDB!");
-
-          const collection = db.collection('projects');
-          
-          await collection.deleteOne({ title: title });
-          await client.close();
-          
-        } catch (error) {
-          console.error('Error removing project from the database:', error);
-        }
+      const client = new MongoClient(this.mongoURI);
+      try {
+        await client.connect();
+        const db = client.db('britt-marie-wap');
+        await client.db("admin").command({ ping: 1 });
+        console.log("Pinged your deployment for removeProject(). Your successfully connected to MongoDB!");
+        const collection = db.collection('projects');
+        //const foundProject = this.getProject(title);
         
-        }
+        /* const result = await collection.findOneAndDelete({ "title": title });
+        console.log(result)
+        this.projects = this.projects.filter(x => x.title !== title);
+        await client.close();
+        console.log('Finished removeProject') */
+        const deletedProject = await collection.findOneAndDelete({ "title": title });
+        this.projects = this.projects.filter(x => x.title !== title);
 
+        if (!deletedProject) {
+          console.log('Project not found');
+          return {success: false}
+        }
+        //console.log('Project deleted successfully!');
+        
+      } catch (error) {
+        console.error('Error removing project from the database:', error);
+      }
+      
+      }
+
+      // this.projects = this.projects.filter((element) => element.title !== title);
         // this.projects = this.projects.filter((element) => element.title !== title);
         
     }
