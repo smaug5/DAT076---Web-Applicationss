@@ -15,21 +15,29 @@ test("End-to-end test", async () => {
   const id2 = 234;
   const title = "First project";
   const title2 = "Second project";
+  const url = "http://google.se";
+  const url2 = "http://chalmers.it"
   const desc = "FIRST!!1!";
   const desc2 = "SECOND";
 
-  const res1 = await request.put("/api/project").send({
-    "id": id,
-    "title": title,
-    "description": desc
-  });
+  const newProject: project = {
+    title: title,
+    description: desc,
+    url: url,
+    image: null
+  };
+
+  const newProject2: project = {
+    title: title2,
+    description: desc2,
+    url: url2,
+    image: null
+  };
+
+  const res1 = await request.put("/api/project").send(newProject);
     expect(res1.statusCode).toEqual(200);
 
-  const res1_2 = await request.put("/api/project").send({
-    "id" : id2,
-    "title" : title2,
-    "description" : desc2
-  })
+  const res1_2 = await request.put("/api/project").send(newProject2)
    expect(res1_2.statusCode).toEqual(200);
    
    const res2 = await request.get("/api/project");
