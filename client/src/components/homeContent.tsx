@@ -21,7 +21,7 @@ export function MainContent() {
   const [cvImage, setCVImage] = useState( null as CV | null);
   const [cvEnabled, setCVEnabled] = useState(false);
   const handleCVDownload = () => {
-
+    
   };
 
   const handleCVImage = (cvImage: CV | null) => {
