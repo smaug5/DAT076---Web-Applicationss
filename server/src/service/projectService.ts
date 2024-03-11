@@ -84,36 +84,26 @@ export class projectService {
       }
 
     async removeProject(title: String) {
-        const client = new MongoClient(this.mongoURI);
-        try {
-          await client.connect();
-          const db = client.db('britt-marie-wap');
-          await client.db("admin").command({ ping: 1 });
-          console.log("Pinged your deployment for removeProject(). Your successfully connected to MongoDB!");
+      const client = new MongoClient(this.mongoURI);
+      try {
+        await client.connect();
+        const db = client.db('britt-marie-wap');
+        await client.db("admin").command({ ping: 1 });
+        console.log("Pinged your deployment for removeProject(). Your successfully connected to MongoDB!");
+        const collection = db.collection('projects');
 
-          const collection = db.collection('projects');
-          
-          const deletedProject = await collection.findOneAndDelete({ "title": title });
-          this.projects = this.projects.filter(x => x.title !== title);
+        const deletedProject = await collection.findOneAndDelete({ "title": title });
+        this.projects = this.projects.filter(x => x.title !== title);
 
-          if (!deletedProject) {
-            console.log('Project not found');
-            return {success: false}
-          }
-          await client.close();
-          
-        } catch (error) {
-          console.error('Error removing project from the database:', error);
+        if (!deletedProject) {
+          console.log('Project not found');
+          return {success: false}
         }
-        
-        }
-
-        // this.projects = this.projects.filter((element) => element.title !== title);
-        
+        await client.close();
+ 
+      } catch (error) {
+        console.error('Error removing project from the database:', error);
+      }
     }
-    
-
-
-
-
+   
 export const projectServices: projectService = new projectService();
