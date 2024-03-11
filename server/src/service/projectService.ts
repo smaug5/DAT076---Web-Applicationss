@@ -49,14 +49,15 @@ export class projectService {
 
     };
     
-    async getProject(projectName: String): Promise<project | undefined> {
-        let foundProjects = this.projects.filter(x => x.title === projectName);
-        if (foundProjects.length === 1) {
-            return foundProjects[0];
+    async getProject(projectName: String): Promise<project> {
+        const allProjects = this.getAllProjects();
+        const specificProject = (await allProjects).filter(x => x.title === projectName);
+        if (specificProject.length === 0) {
+          throw Error("Project not found.");
         }
-        return undefined;
+        return specificProject[0];
     }
-        
+  
 
 
 

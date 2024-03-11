@@ -35,10 +35,10 @@ test("End-to-end test", async () => {
   };
 
   const res1 = await request.put("/api/project").send(newProject);
-    expect(res1.statusCode).toEqual(200);
+    expect(res1.statusCode).toEqual(201);
 
   const res1_2 = await request.put("/api/project").send(newProject2)
-   expect(res1_2.statusCode).toEqual(200);
+   expect(res1_2.statusCode).toEqual(201);
    
    const res2 = await request.get("/api/project");
    expect(res2.statusCode).toEqual(200);
