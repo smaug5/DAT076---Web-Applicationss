@@ -20,32 +20,8 @@ import {CV} from '../../../server/src/model/cv';
 export function MainContent() {
   const [cvImage, setCVImage] = useState( null as CV | null);
   const [cvEnabled, setCVEnabled] = useState(false);
-  const handleDownload = () => {
-    axios({
-        url: 'http://localhost:8080/api/cv',
-        method: 'GET',
-        responseType: 'blob',  // binary cotent
-    }).then((response) => {
-        const url = window.URL.createObjectURL(new Blob([response.data]));
-        const link = document.createElement('a');
-        const contentDisposition = response.headers['Content-Disposition'];
-        console.log("Headers are:" + contentDisposition);
-        let fileName = 'CV.pdf';
-        if (contentDisposition) {
-          const matches = /filename="?([^"]+)"?;?/i.exec(contentDisposition);
-          if (matches != null && matches[1]) {
-              fileName = matches[1];
-          }
-      }
+  const handleCVDownload = () => {
 
-        link.href = url;
-        link.setAttribute('download', fileName); 
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
-    }).catch(error => {
-        console.error('Error downloading the file:', error);
-    });
   };
 
   const handleCVImage = (cvImage: CV | null) => {
@@ -86,7 +62,7 @@ export function MainContent() {
                   { cvEnabled && 
                   <Col>
                     <div id="button-container">
-                      <Button variant="primary" id="CV-button" onClick={handleDownload}>Download CV</Button>
+                      <Button variant="primary" id="CV-button" onClick={handleCVDownload}>Download CV</Button>
                     </div>
                     <Row className="mt-3" id="cvImage">
                       <Image src={String(cvImage?.image)} alt="CV" id="cv-image" />

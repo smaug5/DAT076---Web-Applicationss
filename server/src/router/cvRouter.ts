@@ -3,12 +3,11 @@
 import express, {Express, Request, Response } from "express";
 import { app } from "../start";
 import e from "express";
-import {uri} from "../../db/conn";
 import * as fs from 'fs';
 import stream, { Readable } from "stream";
 import { CV } from "../model/cv";
 import multer from "multer";
-import {cvService2, cvServices2} from "../service/cvService2";
+import {cvService, cvServices} from "../service/cvService";
 
 
 require("../model/cv.db");
@@ -51,7 +50,7 @@ cvRouter.get("/", async (
     res: Response<CV>
 ) => {
     try {
-        const cvImage: CV = await cvServices2.getCV();
+        const cvImage: CV = await cvServices.getCV();
 
         cvImage.image = `data:image/png;base64,${cvImage.image}`;
         
@@ -85,7 +84,7 @@ try {
       image: imageData
     };
 
-    await cvServices2.replaceCV(newCV);
+    await cvServices.replaceCV(newCV);
     
     res.status(201).json({ message: 'CV added successfully', id: imageData });
 } catch (error) {

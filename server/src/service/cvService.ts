@@ -1,11 +1,11 @@
-import { IcvService } from '../service/IcvService';
+import { IcvService } from './IcvService';
 import { CV } from '../model/cv';
 import { cvModel } from '../model/cv.db';  
 
 
 
 
-export class cvService2 implements IcvService {
+export class cvService implements IcvService {
 
     public async getCV(): Promise<CV> {
         const cv = await cvModel.findOne();
@@ -21,4 +21,4 @@ export class cvService2 implements IcvService {
     }
 }
 
-export const cvServices2: cvService2 = new cvService2();
+export const cvServices: cvService = new cvService();
