@@ -21,22 +21,55 @@ export function MainContent() {
   const [cvImage, setCVImage] = useState( null as CV | null);
   const [cvEnabled, setCVEnabled] = useState(false);
   const handleCVDownload = () => {
-    
+    if (cvImage && cvImage.image) {
+      // Extract the base64 data from the string
+      const base64Response = cvImage.image.split(';base64,').pop();
+  
+      // Convert it to a blob
+      const blob = base64ToBlob(base64Response, 'image/png');
+  
+      // Use the FileSaver library to save the blob as a PNG file
+      saveAs(blob, "CV.png");
+    } else {
+      console.error('CV image is not available for download');
+    }
   };
+  
+  // Helper function to convert a base64 string to a Blob
+  const base64ToBlob = (base64:any, mimeType:any) => {
+    const byteCharacters = atob(base64);
+    const byteArrays = [];
+  
+    for (let offset = 0; offset < byteCharacters.length; offset += 512) {
+      const slice = byteCharacters.slice(offset, offset + 512);
+      const byteNumbers = new Array(slice.length);
+  
+      for (let i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+  
+      const byteArray = new Uint8Array(byteNumbers);
+      byteArrays.push(byteArray);
+    }
+  
+    return new Blob(byteArrays, {type: mimeType});
+  };
+  
 
   const handleCVImage = (cvImage: CV | null) => {
     setCVImage(cvImage);
   }
 
   useEffect(() => {
-    updateCV(handleCVImage);
+    updateCV(cvImage, handleCVImage);
   });
 
   
   const showCV = async () => {
     setCVEnabled(!cvEnabled);
     if (cvImage === null) {
-      updateCV(handleCVImage);
+      
+      updateCV(cvImage, handleCVImage);
     }
   }
 
@@ -97,11 +130,14 @@ export function MainContent() {
   );
 }
 
-export async function updateCV(handleCVImage: (cvImage: CV) => void){
+export async function updateCV(cvImage: any, handleCVImage: (cvImage: CV) => void){
   try {
-    const result = await axios.get<CV>("http://localhost:8080/api/cv");
-    handleCVImage(result.data);
-   // console.log('CV:', result.data);
+    if (cvImage === null) {
+      const result = await axios.get<CV>("http://localhost:8080/api/cv");
+      handleCVImage(result.data);
+      console.log('CV:', result.data);
+    }
+    
    //console.log('CV filename:', result.data.image)
    //Log type of data:
    //console.log('Type of data:', typeof result.data?.image);
