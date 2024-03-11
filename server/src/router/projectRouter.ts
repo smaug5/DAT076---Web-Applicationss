@@ -83,10 +83,10 @@ projectRouter.delete('/:title', async (
     try {
         const title : String = req.params.title;
 
-        console.log("Title is: " + title)
+        console.log("Title is: " + title);
 
         const result = await projectServices.removeProject(title);
-
+        console.log(result)
         if (result?.success)
             res.status(200);
         else

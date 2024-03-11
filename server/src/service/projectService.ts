@@ -100,6 +100,7 @@ export class projectService {
           return {success: false}
         }
         await client.close();
+        return {success: true}
  
       } catch (error) {
         console.error('Error removing project from the database:', error);
