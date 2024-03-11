@@ -105,5 +105,5 @@ export class projectService {
         console.error('Error removing project from the database:', error);
       }
     }
-   
+  }
 export const projectServices: projectService = new projectService();
