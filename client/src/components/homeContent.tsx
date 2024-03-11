@@ -20,23 +20,20 @@ import {CV} from '../../../server/src/model/cv';
 export function MainContent() {
   const [cvImage, setCVImage] = useState( null as CV | null);
   const [cvEnabled, setCVEnabled] = useState(false);
+  
   const handleCVDownload = () => {
     if (cvImage && cvImage.image) {
-      // Extract the base64 data from the string
       const base64Response = cvImage.image.split(';base64,').pop();
-  
-      // Convert it to a blob
       const blob = base64ToBlob(base64Response, 'image/png');
   
-      // Use the FileSaver library to save the blob as a PNG file
-      saveAs(blob, "CV.png");
+      saveAs(blob, "Jonathans_cv.png");
     } else {
       console.error('CV image is not available for download');
     }
   };
   
-  // Helper function to convert a base64 string to a Blob
-  const base64ToBlob = (base64:any, mimeType:any) => {
+  const base64ToBlob = (base64:any, mimeType:any) => {   // Helper function to convert our CV-base64 string to a Blob, ty stack overflow <3
+
     const byteCharacters = atob(base64);
     const byteArrays = [];
   
@@ -47,7 +44,6 @@ export function MainContent() {
       for (let i = 0; i < slice.length; i++) {
         byteNumbers[i] = slice.charCodeAt(i);
       }
-  
       const byteArray = new Uint8Array(byteNumbers);
       byteArrays.push(byteArray);
     }
