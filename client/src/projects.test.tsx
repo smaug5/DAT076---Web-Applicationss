@@ -19,6 +19,8 @@ describe('ProjectContent Component', () => {
 
     const { getAllByRole } = render(<ProjectContent />);
 
+    console.log("works")
+
     await waitFor(() => {
       expect(getAllByRole('img')).toHaveLength(mockProjects.length);
     });

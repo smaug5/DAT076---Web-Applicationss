@@ -25,9 +25,9 @@ export function AdminManagerPage() {
       formData.append('image', image);
     }
     console.log('Submitting form with form data: \n')
-    for (let [key, value] of formData.entries()) { //This shows the each form data entry thing
+    /*for (let [key, value] of formData.entries()) { //This shows the each form data entry thing
       console.log(`${key}: ${value}`);
-    }  
+    } */
 
     try {
       const response = await axios.put('http://localhost:8080/api/project', formData, {
