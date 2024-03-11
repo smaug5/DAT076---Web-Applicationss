@@ -15,7 +15,7 @@ projectRouter.get("/", async (
     res: Response<project[]>
 ) => {
     try {
-        const allprojects = await projectServices.getAllProjects(); 
+        const allprojects = await projectServices.getAllProjects();
 
         allprojects.forEach((project) => { //Decode image data from Base64 to image file
             if (project.image) {
@@ -27,6 +27,7 @@ projectRouter.get("/", async (
         res.status(500).send(e.message);
     }
 });
+
 
 projectRouter.get("/:title", async (
     req: Request<{title : string}>,
@@ -72,4 +73,24 @@ try {
     console.error('Error submitting form:', error);
     res.status(500).json({ message: 'Failed to add project' });
 }
+});
+
+
+projectRouter.delete('/:title', async (
+    req: Request<{title: string}>,
+    res: Response
+) => {
+    try {
+        const title : String = req.params.title;
+
+        const respons = await projectServices.removeProject(title);
+        console.log(respons);
+        if (respons?.success)
+            res.status(200);
+        else
+            res.status(404).json({ message: 'Project not found' });
+    } catch (error) {
+        console.error('Error removing project', error);
+        res.status(500).json({ message: 'Failed to remove project' });
+    }
 });

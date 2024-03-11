@@ -14,6 +14,7 @@ export function AdminManagerPage() {
   const [url, setUrl] = useState('');
   const [description, setDescription] = useState('');
   const [image, setImage] = useState(null);
+  const [delTitle, setDelTitle] = useState('');
 
   const handleSubmit = async (event: { preventDefault: () => void; }) => {
     event.preventDefault();
@@ -60,7 +61,6 @@ export function AdminManagerPage() {
   };
 
 // Functions and variable to handle Project deletion ---------------------------------------------------------
-  const [delTitle, setDelTitle] = useState('');
   const handleDelete = async (event: { preventDefault: () => void; }) => {
     event.preventDefault();
     const formData = new FormData();
@@ -68,7 +68,7 @@ export function AdminManagerPage() {
     console.log('Deleting project' + delTitle);
 
     try {
-      const response = await axios.delete('http://localhost:8080/api/project')
+      const response = await axios.delete('http://localhost:8080/api/project' + delTitle)
       .then(response => {
         console.log('Deleted project with name: ' + formData);
       });

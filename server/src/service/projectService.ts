@@ -93,7 +93,13 @@ export class projectService {
 
           const collection = db.collection('projects');
           
-          await collection.deleteOne({ title: title });
+          const deletedProject = await collection.findOneAndDelete({ "title": title });
+          this.projects = this.projects.filter(x => x.title !== title);
+
+          if (!deletedProject) {
+            console.log('Project not found');
+            return {success: false}
+          }
           await client.close();
           
         } catch (error) {
