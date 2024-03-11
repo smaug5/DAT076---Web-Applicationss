@@ -1,5 +1,5 @@
 
-import { cvService } from '../src/service/cvServices';
+import { cvService } from '../src/service/cvService';
 import { CV } from '../src/model/cv';
 
 /* test('should return a cv', async () => {
