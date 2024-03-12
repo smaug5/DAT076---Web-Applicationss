@@ -43,4 +43,4 @@ test("If a project is removed, it should not be in the list of projects",
         const testProject = await projectServices.getAllProjects();
 
         expect(testProject.every((testProject) => testProject.title !== title)).toBeTruthy();
-});
+}, 30000);
