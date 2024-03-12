@@ -14,3 +14,15 @@ adminRouter.get("/", async (
         res.status(500).send(e.message);
     }
 });
+
+adminRouter.post("/", async (
+    req: Request,
+    res: Response<Boolean>
+) => { 
+    try {
+        await adminService.authoriseUser();
+        res.status(201).send(true);
+    } catch (e: any) {
+        res.status(500).send(false);
+    }
+});
