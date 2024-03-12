@@ -1,0 +1,10 @@
+/*.bounce:hover {
+  animation-name: bounce;
+  animation-timing-function: ease;
+}*/
+
+.nav-link:hover {
+    opacity: 1;
+    color: rgb(228, 227, 175) !important;
+    filter: drop-shadow(rgb(253, 253, 253) 0.1rem 0.1rem 15px);
+  }

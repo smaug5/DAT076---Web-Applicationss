@@ -1,0 +1,99 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    background-color: #1586AA; /* Satta denna som default background color */
+    overflow: hidden /*disable scroll*/
+}
+
+
+/* ----------------------- Layout ----------------------- */
+
+.full-height {
+    height: calc(100% - 30px); /* Mitt försök att göra så att Navbar inte ska göra så att sidan pushas ner */
+    background-color: rgb(255, 153, 0);
+
+}
+.half-box{
+  height: calc(50% - 30px);
+}
+
+.navbar-nav {
+  width: 100%;
+}
+
+.nav-link { /* Detta betyder att stylingen appliceras på allt som är en navlink class */
+  color: white !important; 
+  padding-left:100px ;
+  padding-right:35px ;
+  align-self: center;
+  opacity: 0.6;
+
+}
+
+.align-navitems {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.navbar-custom-icon {
+  max-width: 50%;
+}
+
+.centered-image {
+  display: flex;
+  justify-content: center;
+}
+
+
+/* ----------------------- Color Scheme ----------------------- */
+
+.fancy-color{
+    background-color: rgb(57, 80, 254);
+}
+
+.white-svg {
+  filter: invert(100%);
+}
+
+.mainBackground {
+  background: #1586AA;
+}
+
+
+.bit-girl{
+    max-width: 50%;
+    max-height: 50%;
+    display: block;
+    margin: auto;
+
+
+}
+
+/* ----------------------- Text Styling ----------------------- */
+
+
+.active {  /* Detta betyder att stylingen appliceras på allt som är en "active" class */
+  border-bottom: 1px solid currentColor !important; 
+  border-bottom-width: 0.5px;
+  padding-bottom: 2px !important; /* Detta bestämmer distansen till underlinen, Eller ja... det borde göra det men piss-koden funkar inte :( Den typ flyttar runt "active" element på något whack sätt istället*/
+  opacity: 0.8;
+}
+
+
+
+
+
+/* ----------------------- Custom Components ----------------------- */
+
+
+.navbar-custom {
+	background-color: #083644;
+} 
+
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24
+}
