@@ -27,6 +27,25 @@ body {
     min-height: 100%; /* Mitt försök att göra så att Navbar inte ska göra så att sidan pushas ner */
     height: 100%;
 }
+
+.left-half{
+  display: flex;       
+  flex-direction: column; 
+  width: 50%;
+  height: 100%;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.right-half{
+  display: flex;       
+  flex-direction: column; 
+  width: 50%;
+  height: 100%;
+  justify-content: center;
+  align-items: flex-start;
+}
+
 .half-box{
   height: 30%;
 }
@@ -97,6 +116,11 @@ body {
     margin-top: -80px;
 }
 
+.maxWidth {
+  max-width: 100%;
+  max-height: 100%;
+}
+
 
 .blue-background {
   background-color: blue;
@@ -157,7 +181,13 @@ body {
   /*padding: 0 10%;*/
   margin-top: 20px;
   margin-bottom: 20px;
+}
 
+.admin-text{
+  width: 60%;
+  text-align: start;
+  color: white;
+  opacity: 0.9;
 }
 
 #description-text {
@@ -168,11 +198,19 @@ body {
   opacity: 1;
 }
 
+.center-text{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
 
 
 
 
 /* ----------------------- Custom Components ----------------------- */
+
 
 
 .navbar-custom {

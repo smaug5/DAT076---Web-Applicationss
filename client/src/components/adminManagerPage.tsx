@@ -1,6 +1,6 @@
 
 import { useEffect, useState } from 'react';
-import { Form, Button, Container, FormLabel, FormControl } from 'react-bootstrap';
+import { Form, Button, Row, Container, FormLabel, FormControl } from 'react-bootstrap';
 import '../App.css';
 import '../../src/css/main.css';
 import '../../src/css/animations.css';
@@ -9,14 +9,13 @@ import axios from 'axios';
 
 export function AdminManagerPage() {
 
-// Functions and variables to handle project adding ---------------------------------------------------------
+  // Functions and variables to handle project adding ---------------------------------------------------------
   const [title, setTitle] = useState('');
   const [url, setUrl] = useState('');
   const [description, setDescription] = useState('');
   const [image, setImage] = useState(null);
-  const [delTitle, setDelTitle] = useState('');
 
-  const handleSubmit = async (event: { preventDefault: () => void; }) => {
+  const handleProjectSubmit = async (event: { preventDefault: () => void; }) => {
     event.preventDefault();
     const formData = new FormData();
     formData.append('title', title);
@@ -62,6 +61,7 @@ export function AdminManagerPage() {
   };
 
 // Functions and variable to handle Project deletion ---------------------------------------------------------
+  const [delTitle, setDelTitle] = useState('');
   const handleDelete = async (event: { preventDefault: () => void; }) => {
     console.log("Entered handleDelete()")
     event.preventDefault();
@@ -90,9 +90,8 @@ export function AdminManagerPage() {
 
 // Functions and variables to handle CV upload --------------------------------------------------------------
   const [selectedCVFile, setSelectedCVFile] = useState(null);
-
   
-  const handleFileChange = (event: {target: any; preventDefault: () => void; }) => {
+  const handleCVChange = (event: {target: any; preventDefault: () => void; }) => {
     event.preventDefault();
     setSelectedCVFile(event.target.files[0]);
   };
@@ -120,87 +119,136 @@ export function AdminManagerPage() {
     }
   };
 
+  // Variables to handle authorisation --------------------------------------------------------------
+  const [password, setPassword] = useState('');
+  const [authorised, setAuthorised] = useState(false);
+
+  const handleAutorisatiion = async (event: { preventDefault: () => void; }) => {
+    event.preventDefault();
+    console.log('Authorising with password: ' + password);
+    //alert('Authorised key entered');
+    try {
+      const response = await axios.post('http://localhost:8080/api/login', {
+        password: password,
+      }); 
+      setAuthorised(response.data.authorised);
+    } catch (error) {
+      console.error('Error retrieving password:', error);
+      alert('Error authorising');
+    }
+  };
+
+
+  // Main body -----------------------------------------------------------------------------------------
+
   return (
-    <Container>
-
-      {/* Form to add project */}
-      <Form onSubmit={handleSubmit}>
-        <Form.Group className="mb-3" controlId="formBasicTitle">
-          <Form.Label>Title</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter project title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-        </Form.Group>
-
-        <Form.Group className="mb-3" controlId="formBasicUrl">
-          <Form.Label>URL</Form.Label>
-          <Form.Control
-            type="url"
-            placeholder="Enter project URL"
-            value={url}
-            onChange={(e) => setUrl(e.target.value)}
-          />
-        </Form.Group>
-
-        <Form.Group className="mb-3" controlId="formBasicDescription">
-          <Form.Label>Description</Form.Label>
-          <Form.Control
-            as="textarea"
-            rows={3}
-            placeholder="Enter project description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-        </Form.Group>
-
-        <Form.Group controlId="formFile" className="mb-3">
-          <Form.Label>Project Image (optional)</Form.Label>
-          <Form.Control type="file" accept=".png" onChange={handleImageChange} />
-        </Form.Group>
-
-        <Button variant="primary" type="submit" id="CV-button">
-          Submit
-        </Button>
-      </Form>
-
+    <Container className="admin-text">
+      <br></br>
+      <h1 className="center-text">Admin Manager</h1>
       <br></br>
       <br></br>
+      <Row>
+        <Container className="left-half">
 
-      {/* Form to delete project */}
+          {/* Form to add project */}
+          <h2>Add Project</h2>
+          <Form onSubmit={handleProjectSubmit}>
+            <Form.Group className="mb-3" controlId="formBasicTitle">
+              <Form.Label>Title</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter project title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
+            </Form.Group>
 
-      <Form onSubmit={handleDelete}>
-        <Form.Group className="mb-3" controlId ="formDeleteTitle">
-        <Form.Label>Delete Project</Form.Label>
-        <Form.Control
-          type="text"
-          placeholder="Enter title of project to delete"
-          value={delTitle}
-          onChange={(e) => setDelTitle(e.target.value)}
-          />
-        </Form.Group>
+            <Form.Group className="mb-3" controlId="formBasicUrl">
+              <Form.Label>URL</Form.Label>
+              <Form.Control
+                type="url"
+                placeholder="Enter project URL"
+                value={url}
+                onChange={(e) => setUrl(e.target.value)}
+              />
+            </Form.Group>
 
-        <Button variant="primary" type="submit" id="CV-button">
-          Submit
-        </Button>
-      </Form>
+            <Form.Group className="mb-3" controlId="formBasicDescription">
+              <Form.Label>Description</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={3}
+                placeholder="Enter project description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
+            </Form.Group>
 
-      <br></br>
+            <Form.Group controlId="formFile" className="mb-3">
+              <Form.Label>Project Image (optional)</Form.Label>
+              <Form.Control type="file" accept=".png" onChange={handleImageChange} />
+            </Form.Group>
 
-      {/* Form to upload CV*/}
+            <Button variant="primary" type="submit" id="CV-button">
+              Submit
+            </Button>
+          </Form>
 
-      <Form onSubmit={handleCVSubmit}>
-        <Form.Group controlId="formFile" className="mb-3">
-          <Form.Label>Select CV file (png only)</Form.Label>
-          <Form.Control type="file" accept=".png" onChange={handleFileChange} />
-        </Form.Group>
-        <Button variant="primary" type="submit" id="CV-button">
-          Upload CV
-        </Button>
-      </Form>
+          <br></br>
+          <br></br>
+          <h2>Delete Project</h2>
 
+          {/* Form to delete project */}
+
+          <Form onSubmit={handleDelete} className="maxWidth">
+            <Form.Group className="mb-3" controlId ="formDeleteTitle">
+            <Form.Label>Project Title</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter title of project to delete"
+              value={delTitle}
+              onChange={(e) => setDelTitle(e.target.value)}
+              />
+            </Form.Group>
+
+            <Button variant="primary" type="submit" id="CV-button">
+              Delete
+            </Button>
+          </Form>
+
+          <br></br>
+
+          {/* Form to upload CV*/}
+          <h2>Upload CV</h2>
+          <Form onSubmit={handleCVSubmit}>
+            <Form.Group controlId="formfile" className="mb-3">
+              <Form.Label>Select CV file (png only)</Form.Label>
+              <Form.Control type="file" accept=".png" onChange={handleCVChange} />
+            </Form.Group>
+            <Button variant="primary" type="submit" id="CV-button">
+              Upload CV
+            </Button>
+          </Form>
+
+        </Container>
+        <Container className="right-half">
+          <h2>Authorisation</h2>
+          <Form onSubmit={handleAutorisatiion}>
+            <Form.Group className="mb-3" controlId="formBasicPassword">
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                type="password"
+                placeholder="Enter password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </Form.Group>
+            <Button variant="primary" type="submit" id="CV-button">
+              Authorize
+            </Button>
+          </Form>
+        </Container>
+      </Row>
     </Container>
   );
   }
