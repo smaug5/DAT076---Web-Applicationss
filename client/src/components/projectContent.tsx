@@ -2,10 +2,9 @@ import React, { useEffect, useState } from 'react';
 import '../App.css';
 import '../../src/css/main.css';
 import '../../src/css/animations.css';
-import translateIcon from '../../src/images/translate_icon.svg';
 import { project } from '../../../server/src/model/project';
 import axios from 'axios';
-import { Button, Container, Card } from 'react-bootstrap';
+import { Button, Card } from 'react-bootstrap';
 
 
 export function ProjectContent() {

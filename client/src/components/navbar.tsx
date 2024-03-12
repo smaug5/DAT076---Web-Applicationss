@@ -1,10 +1,10 @@
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import '../App.css';
 import '../../src/css/main.css';
 import '../../src/css/animations.css';
 import translateIcon from '../../src/images/translate_icon.svg';
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 
 const Navbar = ({ onLanguageChange }: { onLanguageChange: (language: string) => void }) => {

@@ -1,5 +1,5 @@
 
-import React, { FC, ReactElement } from 'react'; 
+import { ReactElement } from 'react'; 
 import { Button, Modal as BootstrapModal } from 'react-bootstrap';
 
 

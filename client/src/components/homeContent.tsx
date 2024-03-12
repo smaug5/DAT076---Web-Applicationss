@@ -1,9 +1,8 @@
 
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import '../App.css';
 import '../../src/css/main.css';
 import '../../src/css/animations.css';
-import translateIcon from '../../src/images/translate_icon.svg';
 import itGirlImage from '../../src/images/IT-girl.jpg';
 import { Container, Row, Col, Image, Button } from 'react-bootstrap';
 import facebook from '../images/icon_facebook.svg';
@@ -12,8 +11,6 @@ import linkedin from '../images/icon_linkedin.svg';
 import twitter from '../images/icon_twitter.svg';
 import axios from 'axios';
 import { saveAs } from 'file-saver';
-import { pdfjs } from "react-pdf";
-import PdfComp from "../components/pdfComp";
 import {CV} from '../../../server/src/model/cv';
 
 
