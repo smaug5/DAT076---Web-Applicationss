@@ -66,9 +66,12 @@ try {
         url: url
     }
 
-    const projectId = await projectServices.addProject(newProject);
+    let projectAdded = await projectServices.addProject(newProject);
     
-    res.status(201).json({ message: 'Project added successfully', id: projectId });
+    if (!projectAdded) {
+        res.status(400).send('Project with that name already exists');
+    }
+    else res.status(201).json({ message: 'Project added successfully'});
 } catch (error) {
     console.error('Error submitting form:', error);
     res.status(500).json({ message: 'Failed to add project' });

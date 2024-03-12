@@ -42,25 +42,26 @@ export class projectService {
       }
       catch (error) {
         console.error('Error getting projects from the database:', error);
-        throw error;  
+        throw error;
       } finally {
         await client.close();
       }
 
     };
     
-    async getProject(projectName: String): Promise<project | undefined> {
-        let foundProjects = this.projects.filter(x => x.title === projectName);
-        if (foundProjects.length === 1) {
-            return foundProjects[0];
+    async getProject(projectName: String): Promise<project> {
+        const allProjects = this.getAllProjects();
+        const specificProject = (await allProjects).filter(x => x.title === projectName);
+        if (specificProject.length === 0) {
+          throw Error("Project not found.");
         }
-        return undefined;
+        return specificProject[0];
     }
-        
+  
 
 
 
-    async addProject(project: project) {
+    async addProject(project: project): Promise<String | Boolean> {
         const client = new MongoClient(this.mongoURI);
         try {
           await client.connect();
@@ -70,11 +71,20 @@ export class projectService {
           console.log("Pinged your deployment for addProject(). You successfully connected to MongoDB!");
 
           const collection = db.collection('projects'); 
-          
-          const result = await collection.insertOne(project);
-          this.projects.push(project);
+          const allProjects = this.getAllProjects();
+          let projectAdded: boolean = true;
 
-          return result.insertedId;
+          if ((await allProjects).filter(x => x.title === project.title).length >= 1) {
+            console.log("There is already a project with this title");
+            return false;
+          } else {
+            const result = await collection.insertOne(project);
+            this.projects.push(project);
+            console.log("THIS IS THE RESULT:");
+            console.log(result);
+            return true;
+          };
+          
         } catch (error) {
           console.error('Error adding project to the database:', error);
           throw error;  
@@ -100,6 +110,7 @@ export class projectService {
           return {success: false}
         }
         await client.close();
+        alert("Project" + title + " deleted successfully!");
         return {success: true}
  
       } catch (error) {
