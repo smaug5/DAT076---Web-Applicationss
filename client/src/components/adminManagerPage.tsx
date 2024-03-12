@@ -144,6 +144,7 @@ export function AdminManagerPage() {
       }); 
       setAuthorised(response.data.authorised);
     } catch (error) {
+      setAuthorised(false);
       console.error('Error retrieving password:', error);
       alert('Error authorising');
     }
