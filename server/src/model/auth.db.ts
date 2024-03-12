@@ -13,4 +13,4 @@ const authSchema: Schema = new mongoose.Schema({
     },
 );
 
-export const cvModel = conn.model<Auth>("password", authSchema);
+export const authModel = conn.model<Auth>("password", authSchema);

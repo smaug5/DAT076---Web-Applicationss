@@ -29,9 +29,9 @@ export function AdminManagerPage() {
       formData.append('image', image);
     }
     console.log('Submitting form with form data: \n')
-    /*for (let [key, value] of formData.entries()) { //This shows the each form data entry thing
+    for (let [key, value] of formData.entries()) { //This shows the each form data entry thing
       console.log(`${key}: ${value}`);
-    } */
+    }
 
     try {
       const response = await axios.put('http://localhost:8080/api/project', formData, {
@@ -132,23 +132,55 @@ export function AdminManagerPage() {
 
   // Variables to handle authorisation -----------------------------------------------------------------------
   const [password, setPassword] = useState('');
+  const [newPassword, setnewPassword] = useState('')
   const [authorised, setAuthorised] = useState(false);
 
   const handleAutorisatiion = async (event: { preventDefault: () => void; }) => {
     event.preventDefault();
     console.log('Authorising with password: ' + password);
-    //alert('Authorised key entered');
+    const authPassword = new FormData();
+    authPassword.append('password', password);
     try {
-      const response = await axios.post('http://localhost:8080/api/login', {
-        password: password,
-      }); 
-      setAuthorised(response.data.authorised);
+      const response = await axios.post('http://localhost:8080/api/login', authPassword, {
+        headers: {
+          'Content-Type': 'application/json',
+      },
+    }); 
+      console.log("Password is: ", response.data)
+      setAuthorised(response.data);
+      if (response.data) {
+        alert('Authorisation successful. You are now authorised to make changes to the portfolio');
+      }
     } catch (error) {
       setAuthorised(false);
       console.error('Error retrieving password:', error);
-      alert('Error authorising');
+      alert('Could not authorise user. Please try again.');
     }
   };
+
+
+  const changePassword = async (event: { preventDefault: () => void; }) => {
+    event.preventDefault();
+    /*if (!authorised){
+      alert('Please autorise before changing the password')
+      return
+    }*/
+    const formData = new FormData();
+    formData.append('newPassword', newPassword);
+    console.log('Adminpage: Changing password to: ' + newPassword);
+    try {
+      const response = await axios.post('http://localhost:8080/api/login/changePassword', formData, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+    });
+      alert('Password changed successfully to: ' + newPassword);
+      window.location.reload();
+    } catch (error) {
+      console.error('Error changing password:', error);
+      alert('Error changing password');
+    }
+  }
 
 
   // Main body -----------------------------------------------------------------------------------------
@@ -156,12 +188,13 @@ export function AdminManagerPage() {
   return (
     <Container className="admin-text">
       <br></br>
-      <h1 className="center-text">Admin Manager</h1>
+      <div id="center-text-div">
+        <h1 className="center-text">Admin Manager</h1>
+      </div>
       <br></br>
       <br></br>
       <Row>
-        <Container className="left-half">
-
+        {authorised && <Container className="left-half">
           {/* Form to add project */}
           <h2>Add Project</h2>
           <Form onSubmit={handleProjectSubmit}>
@@ -242,7 +275,7 @@ export function AdminManagerPage() {
             </Button>
           </Form>
 
-        </Container>
+        </Container>}
         <Container className="right-half">
           <h2>Authorisation</h2>
           <Form onSubmit={handleAutorisatiion}>
@@ -259,6 +292,24 @@ export function AdminManagerPage() {
               Authorize
             </Button>
           </Form>
+
+          <br></br>
+
+          {authorised && <h2>Change Password</h2>}
+          {authorised && <Form onSubmit={changePassword}>
+            <Form.Group className="mb-3" controlId="formBasicPassword">
+              <Form.Label>New Password</Form.Label>
+              <Form.Control
+                type="password"
+                placeholder="Enter new password"
+                value={newPassword}
+                onChange={(e) => setnewPassword(e.target.value)}
+              />
+            </Form.Group>
+            <Button variant="primary" type="submit" id="CV-button">
+              Change Password
+            </Button>
+          </Form>}
         </Container>
       </Row>
     </Container>
