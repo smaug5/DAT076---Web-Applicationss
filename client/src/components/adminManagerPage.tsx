@@ -68,9 +68,7 @@ export function AdminManagerPage() {
     const formData = new FormData();
     formData.append('title', delTitle);
     console.log('Deleting project' + delTitle);
-
     try {
-
       const response = await axios.delete('http://localhost:8080/api/project/' + delTitle)
       .then(response => {
         console.log('Deleted project with name: ' + formData);
