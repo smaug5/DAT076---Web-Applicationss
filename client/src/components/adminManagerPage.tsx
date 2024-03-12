@@ -53,6 +53,13 @@ export function AdminManagerPage() {
 
     } catch (error) {
       console.error('Error submitting form:', error);
+      console.log("Res status: " + error)
+      console.log(typeof error);
+      
+      if (error == new Error("AxiosError: Request failed with status code 400")) {
+        return alert('Duplicate projects');
+      }
+
       alert('Error adding project');
 
       // Handle error here, set an error message on website
