@@ -6,14 +6,33 @@ import { project } from '../../../server/src/model/project';
 import axios from 'axios';
 import { Button, Card } from 'react-bootstrap';
 
-
+/**
+* This is the component for rendering project content.
+* @component
+*/
 export function ProjectContent() {
+  
+  /**
+   * These are the state variabled which holds the list of projects
+   * @type {project[]}
+   */
   const [theProjectList, setProjectList] = useState<project[]>([]);
 
+  /**
+   * Fetching and updates the project list on component mount
+   * @fuction
+   * @name useEffect
+   * @param {function} handleProjectList - Callback function to handle the updated project list
+   */
   useEffect(() => {
       updateProjects(handleProjectList);
   }, []);
 
+  /**
+   * This handles the updated project list
+   * @function
+   * @param {project[]} newProjectList - Updated list of projects
+   */
   const handleProjectList = (newProjectList: project[]) => {
       setProjectList(newProjectList);
       //Show first project in the list
@@ -38,6 +57,12 @@ export function ProjectContent() {
   );
 }
 
+/**
+ * Function which updates the list of projects
+ * @async
+ * @function
+ * @param {function} handleProjectList - Callback function to handle the updated project list
+ */
 export async function updateProjects(handleProjectList: (newProjectList: project[]) => void) {
     // TODO: Make the URL variable.
     try {

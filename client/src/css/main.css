@@ -1,8 +1,7 @@
 html, body, #root, .App {
     height: 100%;
     margin: 0;
-    /*background-color: #1586AA; /* Satte denna som default background color */
-    overflow: hidden /*disable scroll*/
+    overflow: auto /*disable scroll*/
 }
 
 body {
@@ -24,7 +23,7 @@ body {
 }
 
 .full-height {
-    min-height: 100%; /* Mitt försök att göra så att Navbar inte ska göra så att sidan pushas ner */
+    min-height: 100%;
     height: 100%;
 }
 
@@ -59,7 +58,7 @@ body {
   width: 100%;
 }
 
-.nav-link { /* Detta betyder att stylingen appliceras på allt som är en navlink class */
+.nav-link {
   color: white !important; 
   padding-left:100px ;
   padding-right:35px ;
@@ -105,9 +104,7 @@ body {
 }
 
 
-.bit-girl{ /* 
-    max-width: 50%;
-    max-height: 50%; */
+.bit-girl{ 
     border-radius: 50%;
     object-fit: cover; 
     height: auto; 
@@ -140,15 +137,15 @@ body {
 
 /* ----------------------- Text Styling ----------------------- */
 
-
-.active {  /* Detta betyder att stylingen appliceras på allt som är en "active" class */
+/* Styling which is applied to everything which is an active class */
+.active {  
   border-bottom: 1px solid currentColor !important; 
   border-bottom-width: 0.5px;
-  /*padding-bottom: 2px !important;  Detta bestämmer distansen till underlinen, Eller ja... det borde göra det men piss-koden funkar inte :( Den typ flyttar runt "active" element på något whack sätt istället*/
   opacity: 1;
   border-radius: 0px;
 }
 
+/* Changing opacity of inactive classes */
 .inactive {
   opacity: 0.6;
 }
@@ -178,7 +175,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  /*padding: 0 10%;*/
   margin-top: 20px;
   margin-bottom: 20px;
 }

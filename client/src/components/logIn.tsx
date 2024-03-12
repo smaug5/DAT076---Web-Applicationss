@@ -3,6 +3,11 @@ import { ReactElement } from 'react';
 import { Button, Modal as BootstrapModal } from 'react-bootstrap';
 
 
+// ----------------------------------------------------------
+//
+// THIS FILE IS DEPRECATED AND IS THEREFORE NOT IN USE
+//
+// ----------------------------------------------------------
 interface LoginArgs {
     password: string;
     login: string;

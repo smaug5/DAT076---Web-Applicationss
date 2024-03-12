@@ -9,7 +9,7 @@ export class adminService implements IadminService{
     }
     
     async verifyPassword(password: String): Promise<Boolean> { //Return true if verified
-        //Lmao unsure if base64 is secure encoding
+        //base64 is encoding the password   
         console.log("Reached verifyPassword")
         const encodedPassword = Buffer.from(password.toString()).toString('base64');
         
@@ -20,13 +20,11 @@ export class adminService implements IadminService{
         console.log("Database password: " + dbPassword?.password);
         console.log("Encoded password: " + encodedPassword);
 
-
         if (dbPassword?.password == null) {
             return false;
         }
 
         return (dbPassword.password == encodedPassword);
-
 
         //return (password=="HorseInThisHouse")
     }

@@ -3,6 +3,9 @@
   animation-timing-function: ease;
 }*/
 
+
+/* Styling for hover effect on the navigation links, depending on which is active */
+
 .nav-link:hover {
     opacity: 1;
     color: rgb(255, 255, 255) !important;

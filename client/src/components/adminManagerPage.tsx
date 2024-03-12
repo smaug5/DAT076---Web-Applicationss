@@ -6,7 +6,9 @@ import '../../src/css/main.css';
 import '../../src/css/animations.css';
 import axios from 'axios';
 
-
+/**
+ * Component provides func for managing projs, uploading CV, and auth
+ */
 export function AdminManagerPage() {
 
   // Functions and variables to handle project adding ---------------------------------------------------------
@@ -15,12 +17,15 @@ export function AdminManagerPage() {
   const [description, setDescription] = useState('');
   const [image, setImage] = useState(null);
 
+  //func to handle proj submission
   const handleProjectSubmit = async (event: { preventDefault: () => void; }) => {
     event.preventDefault();
+    //chekc if user is auth
     if (!authorised) {
       alert('Please authorise first!');
       return;
     }
+    //create form data
     const formData = new FormData();
     formData.append('title', title);
     formData.append('url', url);
@@ -29,11 +34,12 @@ export function AdminManagerPage() {
       formData.append('image', image);
     }
     console.log('Submitting form with form data: \n')
-    for (let [key, value] of formData.entries()) { //This shows the each form data entry thing
+    /*for (let [key, value] of formData.entries()) { //This shows the each form data entry thing
       console.log(`${key}: ${value}`);
-    }
+    }*/
 
     try {
+      //send PUT req to add proj
       const response = await axios.put('http://localhost:8080/api/project', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -66,6 +72,7 @@ export function AdminManagerPage() {
     }
   };
 
+  //function to handle image change
   const handleImageChange = (event: {target: any; preventDefault: () => void; }) => {
     event.preventDefault();
     setImage(event.target.files[0]);
@@ -73,9 +80,11 @@ export function AdminManagerPage() {
 
 // Functions and variable to handle Project deletion ---------------------------------------------------------
   const [delTitle, setDelTitle] = useState('');
+  //func to handle proj deletion
   const handleDelete = async (event: { preventDefault: () => void; }) => {
     console.log("Entered handleDelete()")
     event.preventDefault();
+    //check if auth
     if (!authorised) {
       alert('Please authorise first!');
       return;
@@ -84,10 +93,12 @@ export function AdminManagerPage() {
     formData.append('title', delTitle);
     console.log('Deleting project' + delTitle);
     try {
-      const response = await axios.delete('http://localhost:8080/api/project/' + delTitle)
-      .then(response => {
-        console.log('Deleted project with name: ' + formData);
+      //send del req to del proj
+      const response = await axios.delete('http://localhost:8080/api/project', {
+        data: { title: delTitle },
       });
+
+      console.log('Deleted project with name: ' + formData);
       console.log(response);
       alert('Project deleted successfully!');
       // Clear form:
@@ -104,17 +115,21 @@ export function AdminManagerPage() {
 // Functions and variables to handle CV upload ---------------------------------------------------------------
   const [selectedCVFile, setSelectedCVFile] = useState(null);
   
+  //func to handle cv file change
   const handleCVChange = (event: {target: any; preventDefault: () => void; }) => {
     event.preventDefault();
     setSelectedCVFile(event.target.files[0]);
   };
 
+  //func to handle cv submission
   const handleCVSubmit = async (event: { preventDefault: () => void; }) => {
     event.preventDefault();
+    //check if cv file is selected
     if (!selectedCVFile) {
       alert('Please select a file first!');
       return;
     }
+    //check if auth
     if (!authorised) {
       alert('Please authorise first!');
       return;
@@ -124,6 +139,7 @@ export function AdminManagerPage() {
     formData.append('image', selectedCVFile);
 
     try {
+      //send put req to upload cv
       const response = await axios.put('http://localhost:8080/api/cv', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -132,6 +148,7 @@ export function AdminManagerPage() {
       console.log('File uploaded successfully', response.data);
       alert('CV uploaded successfully!');
     } catch (error) {
+      //handle error if unable to upload cv
       console.error('Error uploading file', error);
       alert('Error uploading CV');
     }
@@ -142,23 +159,29 @@ export function AdminManagerPage() {
   const [newPassword, setnewPassword] = useState('')
   const [authorised, setAuthorised] = useState(false);
 
+  //func to handle auth
   const handleAutorisatiion = async (event: { preventDefault: () => void; }) => {
     event.preventDefault();
     console.log('Authorising with password: ' + password);
+    //create formdata object to send password
     const authPassword = new FormData();
     authPassword.append('password', password);
     try {
+      //send post req to auth user
       const response = await axios.post('http://localhost:8080/api/login', authPassword, {
         headers: {
           'Content-Type': 'application/json',
       },
     }); 
       console.log("Password is: ", response.data)
+      //update auth status based on res
       setAuthorised(response.data);
+      //show alert message if auth is successful
       if (response.data) {
         alert('Authorisation successful. You are now authorised to make changes to the portfolio');
       }
     } catch (error) {
+      //handle error if unable 
       setAuthorised(false);
       console.error('Error retrieving password:', error);
       alert('Could not authorise user. Please try again.');
@@ -166,24 +189,29 @@ export function AdminManagerPage() {
   };
 
 
+  //func to change password
   const changePassword = async (event: { preventDefault: () => void; }) => {
     event.preventDefault();
     /*if (!authorised){
       alert('Please autorise before changing the password')
       return
     }*/
+    //create formdata object to send new password
     const formData = new FormData();
     formData.append('newPassword', newPassword);
     console.log('Adminpage: Changing password to: ' + newPassword);
     try {
+      //send post req to change password
       const response = await axios.post('http://localhost:8080/api/login/changePassword', formData, {
         headers: {
           'Content-Type': 'application/json',
         },
     });
       alert('Password changed successfully to: ' + newPassword);
+      //reload page if password change is successful
       window.location.reload();
     } catch (error) {
+      //handle error if unable to change password
       console.error('Error changing password:', error);
       alert('Error changing password');
     }
@@ -302,6 +330,7 @@ export function AdminManagerPage() {
 
           <br></br>
 
+          {/* Form to change password */}
           {authorised && <h2>Change Password</h2>}
           {authorised && <Form onSubmit={changePassword}>
             <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -321,7 +350,7 @@ export function AdminManagerPage() {
       </Row>
     </Container>
   );
-  }
+}
 
   
 

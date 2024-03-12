@@ -1,121 +1,57 @@
 import { title } from "process";
 import { project } from "../model/project";
 import { Document, MongoClient, OptionalId } from 'mongodb';
+import { IprojectService } from "./IprojectServices";
+import { projectModel } from "../model/project.db";
 
-export class projectService {
-   
-    // private project : id;
-    private projects: project[] = [] // Add so this is equal to all projects in the database.
-    mongoURI = 'mongodb+srv://portfoliowap:HackerCatNos@portfolio.zyejove.mongodb.net/?retryWrites=true&w=majority&appName=Portfolio';
-
-
-    async getAllProjects(): Promise<project[]> {
-      const client = new MongoClient(this.mongoURI);
-      try {
-        await client.connect();
-        const db = client.db('britt-marie-wap');
-
-        // Send a ping to confirm a successful connection
-        await client.db("admin").command({ ping: 1 });
-        console.log("Pinged your deployment for getAllProjects(). You successfully connected to MongoDB!");
-
-        const collection = db.collection('projects');
-        const cursor = collection.find();
-        const results = await cursor.toArray();
-
-        //console.log("Projects from the database:")
-        //console.log(results);        
-        //console.log("Number of projects from the database:")
-        //console.log(results.length);
-
-        // Turn results into project[] objects
-        this.projects = results.map((project: any) => {
-          return {
-            title: project.title,
-            description: project.description,
-            image: project.image,
-            url: project.url
-          }
-        });
-        
-        return JSON.parse(JSON.stringify(this.projects));
-      }
-      catch (error) {
-        console.error('Error getting projects from the database:', error);
-        throw error;
-      } finally {
-        await client.close();
-      }
-
-    };
-    
-    async getProject(projectName: String): Promise<project> {
-        const allProjects = this.getAllProjects();
-        const specificProject = (await allProjects).filter(x => x.title === projectName);
-        if (specificProject.length === 0) {
-          throw Error("Project not found.");
-        }
-        return specificProject[0];
-    }
+export class projectService implements IprojectService{
   
-
-
-
-    async addProject(project: project): Promise<String | Boolean> {
-        const client = new MongoClient(this.mongoURI);
-        try {
-          await client.connect();
-          const db = client.db('britt-marie-wap');
-          // Send a ping to confirm a successful connection
-          await client.db("admin").command({ ping: 1 });
-          console.log("Pinged your deployment for addProject(). You successfully connected to MongoDB!");
-
-          const collection = db.collection('projects'); 
-          const allProjects = this.getAllProjects();
-          let projectAdded: boolean = true;
-
-          if ((await allProjects).filter(x => x.title === project.title).length >= 1) {
-            console.log("There is already a project with this title");
-            return false;
-          } else {
-            const result = await collection.insertOne(project);
-            this.projects.push(project);
-            console.log("THIS IS THE RESULT:");
-            console.log(result);
-            return true;
-          };
-          
-        } catch (error) {
-          console.error('Error adding project to the database:', error);
-          throw error;  
-        } finally {
-          await client.close();
-        }
-      }
-
-    async removeProject(title: String) {
-      const client = new MongoClient(this.mongoURI);
-      try {
-        await client.connect();
-        const db = client.db('britt-marie-wap');
-        await client.db("admin").command({ ping: 1 });
-        console.log("Pinged your deployment for removeProject(). Your successfully connected to MongoDB!");
-        const collection = db.collection('projects');
-
-        const deletedProject = await collection.findOneAndDelete({ "title": title });
-        this.projects = this.projects.filter(x => x.title !== title);
-
-        if (!deletedProject) {
-          console.log('Project not found');
-          return {success: false}
-        }
-        await client.close();
-        alert("Project" + title + " deleted successfully!");
-        return {success: true}
- 
-      } catch (error) {
-        console.error('Error removing project from the database:', error);
-      }
+  //retrieves all the projects for the databse
+  async getAllProjects(): Promise<project[]> {
+    //find all projects in the database
+    const projects = projectModel.find()
+    //check if project are found
+    if (projects) {
+      return projects;
+    }
+    else {
+      throw new Error("No projects found.");
     }
   }
+
+  //retrieves a project by its name from database
+  async getProject(name: string): Promise<project> {
+    //find project in database with spec name
+    return projectModel.findOne({ name: name }).then((project) => {
+      if (project) {
+        return project;
+      } else {
+        throw new Error("Project not found.");
+      }
+    });
+  }
+
+  //adds a new project to the database
+  async addProject(project: project) {
+    //create a new proj doc in databse
+    projectModel.create(project);
+    return;
+  }
+
+  //removes a project by its name from database
+  async removeProject(title: string) {
+    try {
+      //tries to delete proj doc with title
+        await projectModel.deleteOne({ title: title });
+    } catch (e) {
+        console.error(e);
+        throw new Error("Error while deleting the project.");
+    }
+    return { success: true };
+}
+
+  
+}
+   
+   
 export const projectServices: projectService = new projectService();

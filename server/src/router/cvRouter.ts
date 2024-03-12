@@ -40,35 +40,41 @@ const storage = multer.diskStorage({
 let connection = mongoose.connection; */
 
 
-
+// Multer storage configuration for handling file uploads
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
-
+// GET Endpoint for retrieving the CV image
 cvRouter.get("/", async (
     req: Request,
     res: Response<CV>
 ) => {
     try {
+      // Sending request to the service to retrieve the CV
         const cvImage: CV = await cvServices.getCV();
 
+        // Converting to data URL
         cvImage.image = `data:image/png;base64,${cvImage.image}`;
         
         //console.log("CV image from the database:" + cvImage.image);
     
+        // Sending the CV image as response
         res.status(200).send(cvImage);
     } catch (e: any) {
+      // Sends an error message containing the message which was thrown
         console.log("Error retrieving CV: " + e.message);
         res.status(500).send(e.message);
     }
 });
 
 
+// PUT Endpoint to update the CV file
 cvRouter.put('/', upload.single('image'), async (req, res) => {
 try {
     //console.log(req.body);
     console.log("Entered put route")
 
+    // Extract the image data from the request body and handle file upload
     const { image } = req.body;
     let imageData: String;
 
@@ -79,13 +85,15 @@ try {
       throw new Error('No file uploaded.');
     }
 
-      
+    // Create a new CV object with the updated image
     const newCV: CV = {
       image: imageData
     };
 
+    // Replaces the existing CV with the new data
     await cvServices.replaceCV(newCV);
     
+    // Sending success response
     res.status(201).json({ message: 'CV added successfully', id: imageData });
 } catch (error) {
     console.error('Error submitting CV:', error);

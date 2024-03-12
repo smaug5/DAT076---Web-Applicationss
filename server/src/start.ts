@@ -1,7 +1,6 @@
 import express from "express";
 import cors from "cors";
 
-import { defaultRoute } from "./router/defaultRoute";
 import { cvRouter } from "./router/cvRouter";
 import { adminRouter } from "./router/adminRouter";
 import { projectRouter } from "./router/projectRouter";
