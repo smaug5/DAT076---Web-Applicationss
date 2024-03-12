@@ -17,6 +17,10 @@ export function AdminManagerPage() {
 
   const handleProjectSubmit = async (event: { preventDefault: () => void; }) => {
     event.preventDefault();
+    if (!authorised) {
+      alert('Please authorise first!');
+      return;
+    }
     const formData = new FormData();
     formData.append('title', title);
     formData.append('url', url);
@@ -65,6 +69,10 @@ export function AdminManagerPage() {
   const handleDelete = async (event: { preventDefault: () => void; }) => {
     console.log("Entered handleDelete()")
     event.preventDefault();
+    if (!authorised) {
+      alert('Please authorise first!');
+      return;
+    }
     const formData = new FormData();
     formData.append('title', delTitle);
     console.log('Deleting project' + delTitle);
@@ -86,7 +94,7 @@ export function AdminManagerPage() {
     }
   };
 
-// Functions and variables to handle CV upload --------------------------------------------------------------
+// Functions and variables to handle CV upload ---------------------------------------------------------------
   const [selectedCVFile, setSelectedCVFile] = useState(null);
   
   const handleCVChange = (event: {target: any; preventDefault: () => void; }) => {
@@ -100,6 +108,11 @@ export function AdminManagerPage() {
       alert('Please select a file first!');
       return;
     }
+    if (!authorised) {
+      alert('Please authorise first!');
+      return;
+    }
+
     const formData = new FormData();
     formData.append('image', selectedCVFile);
 
@@ -117,7 +130,7 @@ export function AdminManagerPage() {
     }
   };
 
-  // Variables to handle authorisation --------------------------------------------------------------
+  // Variables to handle authorisation -----------------------------------------------------------------------
   const [password, setPassword] = useState('');
   const [authorised, setAuthorised] = useState(false);
 
