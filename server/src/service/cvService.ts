@@ -15,6 +15,11 @@ export class cvService implements IcvService {
         return cv;
     }
 
+    // Used internally and not exposed
+    public async removeCv(): Promise<void> {
+        await cvModel.deleteMany({});
+    }
+
     public async replaceCV(cv: CV): Promise<void> {
         await cvModel.deleteMany({});
         await cvModel.create(cv);

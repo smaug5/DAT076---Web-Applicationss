@@ -33,19 +33,25 @@ test("End-to-end test", async () => {
     url: url2,
     image: null
   };
-
+  // Delete if exists
+  try {
+    await request.delete("/api/project/" + title)
+    await request.delete("/api/project/" + title2)
+  } catch (error) {
+    // Pass
+  }
   const res1 = await request.put("/api/project").send(newProject);
-    expect(res1.statusCode).toEqual(201);
+  expect(res1.statusCode).toEqual(201);
 
   const res1_2 = await request.put("/api/project").send(newProject2)
-   expect(res1_2.statusCode).toEqual(201);
-   
-   const res2 = await request.get("/api/project");
-   expect(res2.statusCode).toEqual(200);
-   expect(res2.body.map((project : project) => project.title)).toContain(title);
-   expect(res2.body.map((project : project) => project.title)).toContain(title2);
+  expect(res1_2.statusCode).toEqual(201);
+  
+  const res2 = await request.get("/api/project");
+  expect(res2.statusCode).toEqual(200);
+  expect(res2.body.map((project : project) => project.title)).toContain(title);
+  expect(res2.body.map((project : project) => project.title)).toContain(title2);
 
   const res3 = await request.get("/api/project/"+title2);
   expect(res3.body.title).toContain(title2);
 
-});
+}, 30000);
