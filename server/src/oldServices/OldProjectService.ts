@@ -1,7 +1,7 @@
 import { title } from "process";
 import { project } from "../model/project";
 import { Document, MongoClient, OptionalId } from 'mongodb';
-
+/*
 export class projectService {
    
     // private project : id;
@@ -115,4 +115,4 @@ export class projectService {
       }
     }
   }
-export const projectServices: projectService = new projectService();
+export const projectServices: projectService = new projectService();*/

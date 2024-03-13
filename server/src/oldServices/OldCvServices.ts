@@ -1,6 +1,6 @@
 import { MongoClient } from "mongodb";
 import { CV } from "../model/cv";
-
+/*
 export class CVServices {
     private cv!: CV | null; //Create default CV here, dunno how so I put 0
 
@@ -72,4 +72,4 @@ export class CVServices {
         return null
     }
 }
-export const cvService: CVServices = new CVServices();
+export const cvService: CVServices = new CVServices();*/
