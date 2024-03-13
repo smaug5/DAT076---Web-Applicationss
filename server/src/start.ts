@@ -4,6 +4,7 @@ import cors from "cors";
 import { cvRouter } from "./router/cvRouter";
 import { adminRouter } from "./router/adminRouter";
 import { projectRouter } from "./router/projectRouter";
+import { socialMediaRouter } from "./router/socialMediaRouter";
 
 export const app = express();
 /*
@@ -38,3 +39,4 @@ app.use((req, res, next) => {
 app.use('/api/cv', cvRouter);
 app.use('/api/login', adminRouter);
 app.use('/api/project', projectRouter);
+app.use('/api/socialmedia', socialMediaRouter);

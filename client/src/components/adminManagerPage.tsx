@@ -188,7 +188,6 @@ export function AdminManagerPage() {
     }
   };
 
-
   //func to change password
   const changePassword = async (event: { preventDefault: () => void; }) => {
     event.preventDefault();
@@ -214,6 +213,42 @@ export function AdminManagerPage() {
       //handle error if unable to change password
       console.error('Error changing password:', error);
       alert('Error changing password');
+    }
+  }
+
+  // Variables to handle social media links -------------------------------------------------------------------
+  const [facebook, setFacebook] = useState('');
+  const [instagram, setInstagram] = useState('');
+  const [linkedin, setLinkedin] = useState('');
+  const [twitter, setTwitter] = useState('');
+
+  //func to handle media submission
+  const handleMediaSubmit = async (event: { preventDefault: () => void; }) => {
+    event.preventDefault();
+    //check if auth
+    if (!authorised) {
+      alert('Please authorise first!');
+      return;
+    }
+    //create formdata object to send social media links
+    const formData = new FormData();
+    formData.append('facebook', facebook);
+    formData.append('instagram', instagram);
+    formData.append('linkedin', linkedin);
+    formData.append('twitter', twitter)
+    console.log('Adminpage: Changing social media links to: ' + facebook + ', ' + instagram + ', ' + linkedin + ', ' + twitter);
+    try {
+      //send post req to change social media links
+      const response = await axios.post('http://localhost:8080/api/socialmedia', formData, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+    });
+      alert('Social media links changed successfully!');
+    } catch (error) {
+      //handle error if unable to change social media links
+      console.error('Error changing social media links:', error);
+      alert('Error changing social media links');
     }
   }
 
@@ -310,6 +345,52 @@ export function AdminManagerPage() {
             </Button>
           </Form>
 
+          {/* Form to change social media links*/}
+
+          <br></br>
+          <br></br>
+          <h2>Change Social Media Links</h2>
+          <Form onSubmit={handleMediaSubmit}>
+            <Form.Group className="mb-3" controlId="formBasicFacebook">
+              <Form.Label>Facebook</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter facebook link"
+                value={facebook}
+                onChange={(e) => setFacebook(e.target.value)}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="formBasicInstagram">
+              <Form.Label>Instagram</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter instagram link"
+                value={instagram}
+                onChange={(e) => setInstagram(e.target.value)}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="formBasicLinkedin">
+              <Form.Label>Linkedin</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter linkedIn link"
+                value={linkedin}
+                onChange={(e) => setLinkedin(e.target.value)}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="formBasicTwitter">
+              <Form.Label>Twitter</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter twitter link"
+                value={twitter}
+                onChange={(e) => setTwitter(e.target.value)}
+              />
+            </Form.Group>
+            <Button variant="primary" type="submit" id="CV-button">
+              Update social media
+            </Button>
+          </Form>
         </Container>}
         <Container className="right-half">
           <h2>Authorisation</h2>

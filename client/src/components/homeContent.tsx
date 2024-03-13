@@ -12,6 +12,13 @@ import twitter from '../images/icon_twitter.svg';
 import axios from 'axios';
 import { saveAs } from 'file-saver';
 import {CV} from '../../../server/src/model/cv';
+import { IconContext, IconType } from 'react-icons';
+import { FaFacebook } from 'react-icons/fa'; 
+import { FaInstagram } from 'react-icons/fa';
+import { FaLinkedin } from 'react-icons/fa';
+import { FaTwitter } from 'react-icons/fa';
+
+
 
 
 export function MainContent() {
@@ -85,6 +92,7 @@ export function MainContent() {
    */
   useEffect(() => {
     updateCV(cvImage, handleCVImage);
+    getSocialMedia();
   });
 
   /**
@@ -101,6 +109,39 @@ export function MainContent() {
       updateCV(cvImage, handleCVImage);
     }
   }
+
+
+  const [linkedin, setLinkedin] = useState('');
+  const [facebook, setFacebook] = useState('');
+  const [instagram, setInstagram] = useState('');
+  const [twitter, setTwitter] = useState('');
+  
+  const getSocialMedia = async () => {
+    if (linkedin !== '' && facebook !== '' && instagram !== '' && twitter !== '') {
+      return;
+    }
+    try {
+      const result = await axios.get("http://localhost:8080/api/socialmedia");
+      console.log(result.data);
+      setLinkedin(result.data.linkedin);
+      setFacebook(result.data.facebook);
+      setInstagram(result.data.instagram);
+      setTwitter(result.data.twitter);
+    } catch (error) {
+      console.error('Error while downloading social media:', error);
+    }
+  }
+
+  // Component for social media icons
+  const SocialMediaIcon = ({ url, Icon }: { url: string, Icon:IconType }, ) => {
+    return (
+      <Button variant="link" onClick={() => window.open(url, '_blank')} id="social-media" className="mt-3" style={{ color: 'inherit' }}>
+        <IconContext.Provider value={{ className: "social-media-icon" }}>
+          <Icon id="social-media-icon" />
+        </IconContext.Provider>
+      </Button>
+    );  
+  };
 
   return (
     //container holding the entire content of the page
@@ -133,18 +174,15 @@ export function MainContent() {
                   </Col>
                   }
                   { !cvEnabled && <Row className="mt-3" id="social-media-row">
-                    <Button variant="primary" id="social-media" className="mt-3">
-                      <Image src={linkedin} alt="linkedin" id="social-media-icon" />
-                    </Button>
-                    <Button variant="primary" id="social-media" className="mt-3">
-                      <Image src={facebook} alt="Facebook" id="social-media-icon" />
-                    </Button>
-                    <Button variant="primary" id="social-media" className="mt-3">
-                      <Image src={instagram} alt="Instagram" id="social-media-icon" />
-                    </Button>
-                    <Button variant="primary" id="social-media" className="mt-3">
-                      <Image src={twitter} alt="Twitter" id="social-media-icon" />
-                    </Button>
+                    
+                      <SocialMediaIcon url={facebook} Icon={FaFacebook} />
+                    
+                      <SocialMediaIcon url={instagram} Icon={FaInstagram} />
+                    
+                      <SocialMediaIcon url={linkedin} Icon={FaLinkedin} />
+                    
+                      <SocialMediaIcon url={twitter} Icon={FaTwitter} />
+                    
                   </Row>}
                 </Col>
               </div>
