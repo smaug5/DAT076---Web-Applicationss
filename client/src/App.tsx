@@ -11,6 +11,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { Routes, Route } from 'react-router-dom';
 import ProjectContent from './components/projectContent';
 import AdminManagerPage from './components/adminManagerPage';
+import { LanguageProvider } from './components/languageContext';
 
 
 function App() {
@@ -21,9 +22,10 @@ function App() {
   };
 
   return (
+    <LanguageProvider>
     <div className="full-height h-100" >
       <BrowserRouter>
-        <Navbar onLanguageChange={handleLanguageChange} />
+        <Navbar/>
         <div className="content-container full-height h-100">
         <Routes>
           <Route path="/">
@@ -44,6 +46,8 @@ function App() {
 
       </BrowserRouter>
     </div>
+    </LanguageProvider>
+
   );
 }
 

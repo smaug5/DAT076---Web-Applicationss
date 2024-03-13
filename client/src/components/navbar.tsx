@@ -1,20 +1,26 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import '../App.css';
 import '../../src/css/main.css';
 import '../../src/css/animations.css';
 import translateIcon from '../../src/images/translate_icon.svg';
 import { NavLink } from 'react-router-dom';
+import { LanguageContext } from './languageContext';
 
 /**
  * Navbar component for navigation on the page, and language selection
  * @component
  * @param {Object} props - Component properties
- * @param {fuction} props.onLanguageChange - Callback function for language change
  */
-const Navbar = ({ onLanguageChange }: { onLanguageChange: (language: string) => void }) => {
+const Navbar = () => {
   // State to manage the visability of the language dropdown
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  
+    // Context for language change
+    const { language, setLanguage } = useContext(LanguageContext);
+
+    // Function to handle language change
+    const handleLanguageChange = (newLanguage: string) => {
+      setLanguage(newLanguage);
+    };
     /**
      * Toggles the visibility of the language dropdown
      * @function
@@ -36,9 +42,30 @@ const Navbar = ({ onLanguageChange }: { onLanguageChange: (language: string) => 
                 </button>
                 {/* Menu for language change */}
                 <ul className={`dropdown-menu${isDropdownOpen ? ' show' : ''}`}>
-                    <li><button className="dropdown-item" onClick={() => onLanguageChange('sv')}>Svenska</button></li>
-                    <li><button className="dropdown-item" onClick={() => onLanguageChange('en')}>Engelska</button></li>
-                    <li><button className="dropdown-item" onClick={() => onLanguageChange('la')}>Latin</button></li>
+                <li>
+                <button
+                  className="dropdown-item"
+                  onClick={() => handleLanguageChange('sv')}
+                >
+                  Svenska
+                </button>
+              </li>
+              <li>
+                <button
+                  className="dropdown-item"
+                  onClick={() => handleLanguageChange('en')}
+                >
+                  Engelska
+                </button>
+              </li>
+              <li>
+                <button
+                  className="dropdown-item"
+                  onClick={() => handleLanguageChange('la')}
+                >
+                  Latin
+                </button>
+              </li>
                 </ul>
               </li>
             </ul>

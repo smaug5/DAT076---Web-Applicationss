@@ -1,15 +1,19 @@
 
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { Form, Button, Row, Container, FormLabel, FormControl } from 'react-bootstrap';
 import '../App.css';
 import '../../src/css/main.css';
 import '../../src/css/animations.css';
 import axios from 'axios';
+import { LanguageContext } from './languageContext';
 
 /**
  * Component provides func for managing projs, uploading CV, and auth
  */
 export function AdminManagerPage() {
+
+  // Context for language change
+  const { language } = useContext(LanguageContext);
 
   // Functions and variables to handle project adding ---------------------------------------------------------
   const [title, setTitle] = useState('');
@@ -259,14 +263,18 @@ export function AdminManagerPage() {
     <Container className="admin-text">
       <br></br>
       <div id="center-text-div">
-        <h1 className="center-text">Admin Manager</h1>
+        { language === 'en' && <h1 className="center-text">Admin Manager</h1>}
+        { language === 'sv' && <h1 className="center-text">Administratörs sida</h1>}
+        { language === 'la' && <h1 className="center-text">Adminisratoris pagina</h1>}        
       </div>
       <br></br>
       <br></br>
       <Row>
         {authorised && <Container className="left-half">
           {/* Form to add project */}
-          <h2>Add Project</h2>
+          { language === 'en' && <h2>Add Project</h2>}
+          { language === 'sv' && <h2>Lägg till projekt</h2>}
+          { language === 'la' && <h2>Adde projekto</h2>}
           <Form onSubmit={handleProjectSubmit}>
             <Form.Group className="mb-3" controlId="formBasicTitle">
               <Form.Label>Title</Form.Label>
@@ -311,7 +319,9 @@ export function AdminManagerPage() {
 
           <br></br>
           <br></br>
-          <h2>Delete Project</h2>
+          { language === 'en' && <h2>Delete Project</h2>}
+          { language === 'sv' && <h2>Ta bort projekt</h2>}
+          { language === 'la' && <h2>Deleto projekto</h2>}
 
           {/* Form to delete project */}
 
@@ -334,7 +344,10 @@ export function AdminManagerPage() {
           <br></br>
 
           {/* Form to upload CV*/}
-          <h2>Upload CV</h2>
+          { language === 'en' && <h2>Upload CV</h2>}
+          { language === 'sv' && <h2>Ladda upp CV</h2>}
+          { language === 'la' && <h2>Upload CV</h2>}
+          
           <Form onSubmit={handleCVSubmit}>
             <Form.Group controlId="formfile" className="mb-3">
               <Form.Label>Select CV file (png only)</Form.Label>
@@ -349,7 +362,9 @@ export function AdminManagerPage() {
 
           <br></br>
           <br></br>
-          <h2>Change Social Media Links</h2>
+          { language === 'en' && <h2>Change Social Media Links</h2>}
+          { language === 'sv' && <h2>Ändra sociala medier länkar</h2>}
+          { language === 'la' && <h2>Mutatio Social Media Vincula</h2>}
           <Form onSubmit={handleMediaSubmit}>
             <Form.Group className="mb-3" controlId="formBasicFacebook">
               <Form.Label>Facebook</Form.Label>
@@ -393,7 +408,9 @@ export function AdminManagerPage() {
           </Form>
         </Container>}
         <Container className="right-half">
-          <h2>Authorisation</h2>
+          { language === 'en' && <h2>Authorisation</h2>}
+          { language === 'sv' && <h2>Auktorisation</h2>}
+          { language === 'la' && <h2>Auctoritas</h2>}
           <Form onSubmit={handleAutorisatiion}>
             <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Label>Password</Form.Label>
@@ -412,7 +429,10 @@ export function AdminManagerPage() {
           <br></br>
 
           {/* Form to change password */}
-          {authorised && <h2>Change Password</h2>}
+          
+          { (authorised && language === 'en') && <h2>Change Password</h2>}
+          { (authorised && language === 'sv') && <h2>Ändra lösenord</h2>}
+          { (authorised && language === 'la') && <h2>Mutatio password</h2>}
           {authorised && <Form onSubmit={changePassword}>
             <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Label>New Password</Form.Label>

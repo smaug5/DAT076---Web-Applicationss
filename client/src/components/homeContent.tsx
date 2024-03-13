@@ -1,5 +1,5 @@
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext} from 'react';
 import '../App.css';
 import '../../src/css/main.css';
 import '../../src/css/animations.css';
@@ -17,6 +17,8 @@ import { FaFacebook } from 'react-icons/fa';
 import { FaInstagram } from 'react-icons/fa';
 import { FaLinkedin } from 'react-icons/fa';
 import { FaTwitter } from 'react-icons/fa';
+import { LanguageContext } from './languageContext';
+
 
 
 
@@ -24,6 +26,10 @@ import { FaTwitter } from 'react-icons/fa';
 export function MainContent() {
   const [cvImage, setCVImage] = useState( null as CV | null);
   const [cvEnabled, setCVEnabled] = useState(false);
+
+  // Context for language change
+  const { language } = useContext(LanguageContext);
+
   
   /**
    * Lambda function that handles the download of CV image
@@ -150,23 +156,31 @@ export function MainContent() {
         <Col xs={6} className="d-flex flex-column">
           <div className="half-box headline">
             <div id="headline-text">
-              I am Web designer Britt-Marie Svensson
+              {language === 'en' && "I am Web designer Britt-Marie Svensson!"}
+              {language === 'sv' && "Jag är Webbdesigner Britt-Marie Svensson!"}
+              {language === 'la' && "Lorem Ipsum Web designer Britt-Marie Svensson!"}
             </div>
           </div>
           <div>
             <Col>
               <div className="description">
-                <p id="description-text">I like to play in mud and eat grass. I am just about to finish my degree this summer and do additional photographing in my spare time.</p>
+                {language === 'en' && <p id="description-text">I like to play in mud and eat grass. I am just about to finish my degree this summer and do additional photographing in my spare time.</p>}
+                {language === 'sv' && <p id="description-text">Jag gillar att leka i lera och äta gräs. Jag håller på att avsluta min examen i sommar och fotograferar på fritiden.</p>}
+                {language === 'la' && <p id="description-text">Dolor sit amet, consectetur adipiscing elit. Integer porta dictum risus sed semper. Nullam eu mi nunc. Etiam pulvinar ipsum sem.</p>}
               </div>
               <div>
                 <Col>
                   <div id="button-container">
-                    <Button variant="primary" id="CV-button" onClick={showCV}>Show CV</Button>
+                    {language === 'en' && <Button variant="primary" id="CV-button" onClick={showCV}>Show CV</Button>}
+                    {language === 'sv' && <Button variant="primary" id="CV-button" onClick={showCV}>Visa CV</Button>}
+                    {language === 'la' && <Button variant="primary" id="CV-button" onClick={showCV}>Quis auctor CV</Button>}
                   </div>
                   { cvEnabled && 
                   <Col>
                     <div id="button-container">
-                      <Button variant="primary" id="CV-button" onClick={handleCVDownload}>Download CV</Button>
+                      {language === 'en' && <Button variant="primary" id="CV-button" onClick={handleCVDownload}>Download CV</Button>}
+                      {language === 'sv' && <Button variant="primary" id="CV-button" onClick={handleCVDownload}>Ladda ner CV</Button>}
+                      {language === 'la' && <Button variant="primary" id="CV-button" onClick={handleCVDownload}>Turpis faucibus CV</Button>}
                     </div>
                     <Row className="mt-3" id="cvImage">
                       <Image src={String(cvImage?.image)} alt="CV" id="cv-image" />
