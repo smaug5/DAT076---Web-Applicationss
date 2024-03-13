@@ -3,7 +3,6 @@ import { CV } from "../model/cv";
 
 export class CVServices {
     private cv!: CV | null; //Create default CV here, dunno how so I put 0
-    mongoURI = 'mongodb+srv://portfoliowap:HackerCatNos@portfolio.zyejove.mongodb.net/?retryWrites=true&w=majority&appName=Portfolio';
 
     async addCV(cvData: CV) {
         const client = new MongoClient(this.mongoURI);

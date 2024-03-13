@@ -6,7 +6,6 @@ export class projectService {
    
     // private project : id;
     private projects: project[] = [] // Add so this is equal to all projects in the database.
-    mongoURI = 'mongodb+srv://portfoliowap:HackerCatNos@portfolio.zyejove.mongodb.net/?retryWrites=true&w=majority&appName=Portfolio';
 
 
     async getAllProjects(): Promise<project[]> {
