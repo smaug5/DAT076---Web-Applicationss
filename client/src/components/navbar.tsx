@@ -79,13 +79,23 @@ const Navbar = () => {
           <div className="collapse navbar-collapse align-navitems " id="navbarNavAltMarkup">
             <div className="navbar-nav align-navitems ">
                 {/* <Link className="nav-link" to="/" >Home</Link> */}
-                <NavLink to="/" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>Home </NavLink>
+                {language === 'sv' && <NavLink to="/" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>Hem </NavLink>}
+                {language === 'en' && <NavLink to="/" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>Home </NavLink>}
+                {language === 'la' && <NavLink to="/" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>Domus </NavLink>}
                 {/* <Link className="nav-link" to="/about">About</Link> */}
-                <NavLink to="/about" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>About </NavLink>
+                {language === 'sv' && <NavLink to="/about" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>Om </NavLink>}
+                {language === 'en' && <NavLink to="/about" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>About </NavLink>}
+                {language === 'la' && <NavLink to="/about" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>De domo </NavLink>}
                 {/* <Link className="nav-link" to="/contact">Contact</Link> */}
-                <NavLink to="/contact" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>Contact </NavLink>
+                {language === 'sv' && <NavLink to="/contact" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>Kontakt </NavLink>}
+                {language === 'en' && <NavLink to="/contact" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>Contact </NavLink>}
+                {language === 'la' && <NavLink to="/contact" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>Contactus </NavLink>}
+
                 {/* <Link className="nav-link" to="/projects">Projects</Link> */}
-                <NavLink to="/projects" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>Projects </NavLink>
+                {language === 'sv' && <NavLink to="/projects" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>Projekt </NavLink>}
+                {language === 'en' && <NavLink to="/projects" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>Projects </NavLink>}
+                {language === 'la' && <NavLink to="/projects" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>Projectos </NavLink>}
+
 
             </div>
           </div>
